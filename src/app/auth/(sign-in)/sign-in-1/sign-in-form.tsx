@@ -13,10 +13,11 @@ import { Form } from '@/components/ui/form';
 import { Text } from '@/components/ui/text';
 import { routes } from '@/config/routes';
 import { loginSchema, LoginSchema } from '@/utils/validators/login.schema';
+import Axios from 'axios';
 
 const initialValues: LoginSchema = {
-  email: 'admin@admin.com',
-  password: 'admin',
+  email: 'samplegmail.com',
+  password: 'test@123',
   rememberMe: true,
 };
 
@@ -24,8 +25,15 @@ export default function SignInForm() {
   //TODO: why we need to reset it here
   const [reset, setReset] = useState({});
 
+
+
   const onSubmit: SubmitHandler<LoginSchema> = (data) => {
     console.log(data);
+  Axios.post( 
+    'http://localhost:8000/auth/login',
+    data,
+
+  ).then(console.log).catch(console.log);
     // signIn('credentials', {
     //   ...data,
     // });

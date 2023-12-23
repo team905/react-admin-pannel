@@ -15,6 +15,7 @@ import {
   categoryFormSchema,
 } from '@/utils/validators/create-category.schema';
 import UploadZone from '@/components/ui/file-upload/upload-zone';
+import Axios from 'axios'
 const Select = dynamic(() => import('@/components/ui/select'), {
   ssr: false,
   loading: () => <SelectLoader />,
@@ -116,6 +117,12 @@ export default function CreateCategory({
 
   const onSubmit: SubmitHandler<CategoryFormInput> = (data) => {
     // set timeout ony required to display loading state of the create category button
+      
+  Axios.post( 
+    'http://localhost:8000/api/v1/get_token_payloads',
+    data,
+    config
+  ).then(console.log).catch(console.log);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PiXBold } from 'react-icons/pi';
 import { Controller, SubmitHandler } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { ActionIcon } from '@/components/ui/action-icon';
 import { useFormContext } from 'react-hook-form';
 import FormGroup from '@/app/shared/form-group';
+import Axios from 'axios';
 import cn from '@/utils/class-names';
 import {
   CreateUserInput,
@@ -27,9 +28,19 @@ export default function CreateUser() {
   const { closeModal } = useModal();
   const [reset, setReset] = useState({});
   const [isLoading, setLoading] = useState(false);
+  const [categoryData, setCategory] = useState([]);
 
+  const config = {
+    headers: { Authorization: `Bearer ` }
+};
   const onSubmit: SubmitHandler<CreateUserInput> = (data) => {
     console.log("data",data)
+  
+  Axios.post( 
+    'http://localhost:8000/api/v1/get_token_payloads',
+    data,
+    config
+  ).then(console.log).catch(console.log);
     // set timeout ony required to display loading state of the create category button
     const formattedData = {
       ...data,
@@ -51,6 +62,23 @@ export default function CreateUser() {
       closeModal();
     }, 600);
   };
+
+  //Function for get all categories
+  function getAllCategories() {
+    Axios.get("url").then(
+        (response) => {
+            var result = response.data;
+            console.log(result);
+            setCategory(result)
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+  }
+    useEffect(()=>{
+      getAllCategories
+    })
   return (
     <Form<CreateUserInput>
       resetValues={reset}
@@ -153,7 +181,7 @@ export default function CreateUser() {
               control={control}
               render={({ field: { name, onChange, value } }) => (
                 <Select
-                  options={permissions}
+                  options={categoryData}
                   value={value}
                   onChange={onChange}
                   name={name}
