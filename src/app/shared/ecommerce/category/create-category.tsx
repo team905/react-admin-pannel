@@ -114,7 +114,9 @@ export default function CreateCategory({
 }) {
   const [reset, setReset] = useState({});
   const [isLoading, setLoading] = useState(false);
-
+  const config = {
+    headers: { Authorization: `Bearer ` }
+};
   const onSubmit: SubmitHandler<CategoryFormInput> = (data) => {
     // set timeout ony required to display loading state of the create category button
       
