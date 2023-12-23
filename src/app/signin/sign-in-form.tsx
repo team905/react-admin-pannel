@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+// import { signIn } from 'next-auth/react';
 import { SubmitHandler } from 'react-hook-form';
 import { PiArrowRightBold } from 'react-icons/pi';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -26,9 +26,9 @@ export default function SignInForm() {
 
   const onSubmit: SubmitHandler<LoginSchema> = (data) => {
     console.log(data);
-    signIn('credentials', {
-      ...data,
-    });
+    // signIn('credentials', {
+    //   ...data,
+    // });
     // setReset({ email: "", password: "", isRememberMe: false });
   };
 
