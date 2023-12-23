@@ -71,4 +71,5 @@ export const messages = {
   roleNameLengthMin: 'Role name must be at least 3 letters',
   errorSendingEmail: 'Error sending email',
   emailSentSuccessfully: 'Your email has been sent successfully.',
+  phoneIsRequired:"Phone no is required "
 };

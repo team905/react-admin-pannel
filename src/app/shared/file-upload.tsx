@@ -25,10 +25,10 @@ import { toast } from 'react-hot-toast';
 type AcceptedFiles = 'img' | 'pdf' | 'csv' | 'imgAndPdf' | 'all';
 
 export default function FileUpload({
-  label = 'Upload Files',
+  label = 'Upload logo',
   btnLabel = 'Upload',
   fieldLabel,
-  multiple = true,
+  multiple = false,
   accept = 'all',
 }: {
   label?: string;

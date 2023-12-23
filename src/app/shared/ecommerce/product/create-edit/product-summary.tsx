@@ -24,7 +24,7 @@ export default function ProductSummary({ className }: { className?: string }) {
     control,
     formState: { errors },
   } = useFormContext();
-
+console.log("formState")
   return (
     <FormGroup
       title="Summary"

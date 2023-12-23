@@ -165,12 +165,12 @@ export default function CreateCategory({
                   error={errors.name?.message}
                 />
                 <Input
-                  label="Slug"
-                  placeholder="slug"
+                  label="Included items"
+                  placeholder="Included items"
                   {...register('slug')}
                   error={errors.slug?.message}
                 />
-                <Controller
+                {/* <Controller
                   name="parentCategory"
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -183,7 +183,7 @@ export default function CreateCategory({
                       getOptionValue={(option) => option.name}
                     />
                   )}
-                />
+                /> */}
                 <Controller
                   name="type"
                   control={control}
@@ -192,7 +192,7 @@ export default function CreateCategory({
                       options={typeOption}
                       value={value}
                       onChange={onChange}
-                      label="Display Type"
+                      label=" Type"
                       error={errors?.type?.message as string}
                       getOptionValue={(option) => option.name}
                     />

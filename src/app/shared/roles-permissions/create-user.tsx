@@ -7,6 +7,9 @@ import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ActionIcon } from '@/components/ui/action-icon';
+import { useFormContext } from 'react-hook-form';
+import FormGroup from '@/app/shared/form-group';
+import cn from '@/utils/class-names';
 import {
   CreateUserInput,
   createUserSchema,
@@ -19,24 +22,28 @@ import {
   roles,
   statuses,
 } from '@/app/shared/roles-permissions/utils';
+import UploadZone from '@/components/ui/file-upload/upload-zone';
 export default function CreateUser() {
   const { closeModal } = useModal();
   const [reset, setReset] = useState({});
   const [isLoading, setLoading] = useState(false);
 
   const onSubmit: SubmitHandler<CreateUserInput> = (data) => {
+    console.log("data",data)
     // set timeout ony required to display loading state of the create category button
     const formattedData = {
       ...data,
       createdAt: new Date(),
     };
     setLoading(true);
+    const { getValues, setValue } = useFormContext();
     setTimeout(() => {
       console.log('formattedData', formattedData);
       setLoading(false);
       setReset({
         fullName: '',
         email: '',
+        phone:'',
         role: '',
         permissions: '',
         status: '',
@@ -44,7 +51,6 @@ export default function CreateUser() {
       closeModal();
     }, 600);
   };
-
   return (
     <Form<CreateUserInput>
       resetValues={reset}
@@ -81,6 +87,14 @@ export default function CreateUser() {
               error={errors.email?.message}
             />
 
+            <Input
+                label="Phone"
+                placeholder="Enter user's phone no."
+                className="col-span-full"
+                {...register('phone')}
+                error={errors.phone?.message}
+              />
+
             <Controller
               name="role"
               control={control}
@@ -102,7 +116,20 @@ export default function CreateUser() {
               )}
             />
 
-            <Controller
+            
+          <FormGroup
+      title="Upload logo"
+      description="Upload logo here"
+      // className={cn(className)}
+    >
+      {/* <UploadZone
+        className="col-span-full"
+        name="productImages"
+        getValues={getValues}
+        setValue={setValue}
+      /> */}
+    </FormGroup>
+      <Controller
               name="status"
               control={control}
               render={({ field: { name, onChange, value } }) => (
@@ -121,7 +148,6 @@ export default function CreateUser() {
                 />
               )}
             />
-
             <Controller
               name="permissions"
               control={control}
@@ -131,7 +157,7 @@ export default function CreateUser() {
                   value={value}
                   onChange={onChange}
                   name={name}
-                  label="Permissions"
+                  label="Categeory Access"
                   error={errors?.status?.message}
                   getOptionValue={(option) => option.value}
                   displayValue={(selected: string) =>

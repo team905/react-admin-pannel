@@ -64,6 +64,7 @@ export const getColumns = ({
         ascending={
           sortConfig?.direction === 'asc' && sortConfig?.key === 'name'
         }
+        
       />
     ),
     dataIndex: 'name',
@@ -71,9 +72,9 @@ export const getColumns = ({
     width: 200,
     onHeaderCell: () => onHeaderCellClick('name'),
     render: (name: string) => (
-      <Title as="h6" className="!text-sm font-medium">
+    <Link  href="/"> <Title as="h6" className="!text-sm font-medium">
         {name}
-      </Title>
+      </Title> </Link>
     ),
   },
   {
@@ -88,7 +89,7 @@ export const getColumns = ({
   {
     title: (
       <HeaderCell
-        title="Slug"
+        title="Included Items"
         sortable
         ascending={
           sortConfig?.direction === 'asc' && sortConfig?.key === 'slug'

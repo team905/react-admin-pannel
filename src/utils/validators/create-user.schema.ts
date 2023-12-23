@@ -6,6 +6,7 @@ import { validateEmail } from '@/utils/validators/common-rules';
 export const createUserSchema = z.object({
   fullName: z.string().min(1, { message: messages.fullNameIsRequired }),
   email: validateEmail,
+  phone:z.string().min(1, { message: messages.phoneIsRequired }),
   role: z.string().min(1, { message: messages.roleIsRequired }),
   permissions: z.string().min(1, { message: messages.permissionIsRequired }),
   status: z.string().min(1, { message: messages.statusIsRequired }),
