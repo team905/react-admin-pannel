@@ -68,36 +68,36 @@ export const getColumns = ({
   handleSelectAll,
   onChecked,
 }: Columns) => [
-  {
-    title: (
-      <div className="flex items-center gap-3 whitespace-nowrap ps-2">
-        <Checkbox
-          title={'Select All'}
-          onChange={handleSelectAll}
-          checked={checkedItems.length === data.length}
-          className="cursor-pointer"
-        />
-        User ID
-      </div>
-    ),
-    dataIndex: 'checked',
-    key: 'checked',
-    width: 30,
-    render: (_: any, row: User) => (
-      <div className="inline-flex ps-4">
-        <Checkbox
-          className="cursor-pointer"
-          checked={checkedItems.includes(row.id)}
-          {...(onChecked && { onChange: () => onChecked(row.id) })}
-          label={`#${row.id}`}
-        />
-      </div>
-    ),
-  },
+  // {
+  //   title: (
+  //     <div className="flex items-center gap-3 whitespace-nowrap ps-2">
+  //       <Checkbox
+  //         title={'Select All'}
+  //         onChange={handleSelectAll}
+  //         checked={checkedItems.length === data.length}
+  //         className="cursor-pointer"
+  //       />
+  //       User ID
+  //     </div>
+  //   ),
+  //   dataIndex: '_id',
+  //   key: '_id',
+  //   width: 30,
+  //   render: (_: any, row: User) => (
+  //     <div className="inline-flex ps-4">
+  //       <Checkbox
+  //         className="cursor-pointer"
+  //         checked={checkedItems.includes(row.id)}
+  //         {...(onChecked && { onChange: () => onChecked(row.id) })}
+  //         label={`#${row.id}`}
+  //       />
+  //     </div>
+  //   ),
+  // },
   {
     title: <HeaderCell title="Name" />,
-    dataIndex: 'fullName',
-    key: 'fullName',
+    dataIndex: 'name',
+    key: 'name',
     width: 250,
     hidden: 'fullName',
     render: (_: string, user: User) => (
@@ -141,32 +141,32 @@ export const getColumns = ({
     render: (value: Date) => <DateCell date={value} />,
   },
   {
-    title: <HeaderCell title="Permissions" />,
-    dataIndex: 'permissions',
-    key: 'permissions',
+    title: <HeaderCell title="Category Access" />,
+    dataIndex: 'categoryAccess',
+    key: 'categoryAccess',
     width: 200,
-    render: (permissions: User['permissions'][]) => (
+    render: (categoryAccess: User['permissions'][]) => (
       <div className="flex items-center gap-2">
-        {permissions.map((permission) => (
+        {categoryAccess.map((categoryAccess) => (
           <Badge
-            key={permission}
+            key={categoryAccess}
             rounded="lg"
             variant="outline"
             className="border-gray-200 font-normal text-gray-500"
           >
-            {permission}
+            {categoryAccess}
           </Badge>
         ))}
       </div>
     ),
   },
-  {
-    title: <HeaderCell title="Status" />,
-    dataIndex: 'status',
-    key: 'status',
-    width: 120,
-    render: (status: User['status']) => getStatusBadge(status),
-  },
+  // {
+  //   title: <HeaderCell title="Status" />,
+  //   dataIndex: 'status',
+  //   key: 'status',
+  //   width: 120,
+  //   render: (status: User['status']) => getStatusBadge(status),
+  // },
   {
     title: <></>,
     dataIndex: 'action',

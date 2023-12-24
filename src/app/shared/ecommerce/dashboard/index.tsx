@@ -17,13 +17,21 @@ import welcomeImg from '@public/shop-illustration.png';
 import HandWaveIcon from '@/components/icons/hand-wave';
 
 export default function EcommerceDashboard() {
+  let userData
+  
+  if (typeof window !== 'undefined' && window.localStorage) {
+     userData = localStorage.getItem('userData');
+     console.log("userData",userData)
+
+  }
+  debugger;
   return (
     <div className="@container">
       <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
         <WelcomeBanner
           title={
             <>
-              Good Morning, <br /> Cameron{' '}
+              Good Morning, <br /> ppp{' '}
               <HandWaveIcon className="inline-flex h-8 w-8" />
             </>
           }

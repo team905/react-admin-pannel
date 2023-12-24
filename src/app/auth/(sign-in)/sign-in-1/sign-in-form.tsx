@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
 // import { signIn } from 'next-auth/react';
 import { SubmitHandler } from 'react-hook-form';
@@ -14,24 +13,32 @@ import { Text } from '@/components/ui/text';
 import { routes } from '@/config/routes';
 import { loginSchema, LoginSchema } from '@/utils/validators/login.schema';
 import Axios from 'axios';
-import { redirect } from 'next/dist/server/api-utils';
+import { useRouter } from 'next/navigation';
+
+import Link from 'next/link';
 
 const initialValues: LoginSchema = {
-  email: 'samplegmail.com',
+  email: 'admin@gmail.com',
   password: 'test@123',
-  rememberMe: true,
 };
 
 export default function SignInForm() {
   //TODO: why we need to reset it here
   const [reset, setReset] = useState({});
-
-let baseURL = "64.227.177.118:4000/auth/login"
-
+  const router = useRouter();
+  let baseURL = "http://64.227.177.118:4000/auth/login"
+  // const router = useRouter();
 const onSubmit = async (data:any) => {
   try {
     const response = await Axios.post(baseURL, data);
-    console.log(response);
+    console.log(response.data);
+    if(response.data.message =="Login successful"){
+      localStorage.setItem('userData',JSON.stringify(response.data.user));
+      router.push('/ecommerce');
+     
+    }
+    // router.push('/about');
+    
     // if(!response){
     //   window.location = '/ecommerce'
     // }

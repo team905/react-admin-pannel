@@ -55,14 +55,15 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
     handleDelete,
     handleReset,
   } = useTable(data, pageSize, filterState);
+  const [userDataTable ,setUserDataTable]= useState<any>([])
    //Function for get all categories
-   let baseURL = "64.227.177.118:4000/auth/login"
-   function getAllCategories() {
+   let baseURL = "http://64.227.177.118:4000"
+   function getAlluserDetails() {
     
-    Axios.get(baseURL).then(
+    Axios.post(`${baseURL}/users/all`).then(
         (response) => {
             var result = response.data;
-            console.log(result,"result");
+            setUserDataTable(result.data)
         },
         (error) => {
             console.log(error);
@@ -71,7 +72,7 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   }
   
     useEffect(()=>{
-      getAllCategories
+      getAlluserDetails()
     },[])
 
 console.log("tableData",tableData)
@@ -113,11 +114,11 @@ console.log("tableData",tableData)
       />
       <ControlledTable
         variant="modern"
-        data={tableData}
+        data={userDataTable}
         isLoading={isLoading}
         showLoadingText={true}
         // @ts-ignore
-        columns={visibleColumns}
+        // columns={visibleColumns}
         paginatorOptions={{
           pageSize,
           setPageSize,

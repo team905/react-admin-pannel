@@ -33,12 +33,17 @@ export default function CreateUser() {
   const config = {
     headers: { Authorization: `Bearer ` }
 };
-let baseURL = "64.227.177.118:4000/users"
-  const onSubmit: SubmitHandler<CreateUserInput> = async (data) => {
+let baseURL = "http://64.227.177.118:4000"
+const onSubmit: SubmitHandler<CreateUserInput> = async (data) => {
     console.log("data",data)
     try {
-      const response = await Axios.post(baseURL, data);
+      const response = await Axios.post(`${baseURL}/users`, data);
       console.log(response);
+      if(response){
+         setLoading(false);
+
+      closeModal();
+      }
       // if(!response){
       //   window.location = '/ecommerce'
       // }
@@ -46,42 +51,43 @@ let baseURL = "64.227.177.118:4000/users"
       console.log(error);
     }
     // set timeout ony required to display loading state of the create category button
-    const formattedData = {
-      ...data,
-      createdAt: new Date(),
-    };
-    setLoading(true);
-    const { getValues, setValue } = useFormContext();
-    setTimeout(() => {
-      console.log('formattedData', formattedData);
-      setLoading(false);
-      setReset({
-        fullName: '',
-        email: '',
-        phone:'',
-        role: '',
-        permissions: '',
-        status: '',
-      });
-      closeModal();
-    }, 600);
+    // const formattedData = {
+    //   ...data,
+    //   createdAt: new Date(),
+    // };
+    // setLoading(true);
+    // const { getValues, setValue } = useFormContext();
+    // setTimeout(() => {
+    //   console.log('formattedData', formattedData);
+    //   setLoading(false);
+    //   setReset({
+    //     fullName: '',
+    //     email: '',
+    //     phone:'',
+    //     role: '',
+    //     permissions: '',
+    //     status: '',
+    //   });
+    //   closeModal();
+    // }, 600);
   };
 
   //Function for get all categories
   function getAllCategories() {
-    Axios.get("url").then(
+    Axios.post(`${baseURL}/category/all`).then(
         (response) => {
             var result = response.data;
-            console.log(result);
-            setCategory(result)
+            console.log(result,"result");
+            setCategory(result.data)
         },
         (error) => {
             console.log(error);
         }
     );
   }
+ 
     useEffect(()=>{
-      getAllCategories
+      getAllCategories()
     },[])
   return (
     <Form<CreateUserInput>
@@ -106,9 +112,9 @@ let baseURL = "64.227.177.118:4000/users"
             <Input
               label="Full Name"
               placeholder="Enter user's full name"
-              {...register('fullName')}
+              {...register('name')}
               className="col-span-full"
-              error={errors.fullName?.message}
+              error={errors.name?.message}
             />
 
             <Input
@@ -181,7 +187,7 @@ let baseURL = "64.227.177.118:4000/users"
               )}
             />
             <Controller
-              name="permissions"
+              name="categoryAccess"
               control={control}
               render={({ field: { name, onChange, value } }) => (
                 <Select
@@ -191,7 +197,7 @@ let baseURL = "64.227.177.118:4000/users"
                   name={name}
                   label="Categeory Access"
                   error={errors?.status?.message}
-                  getOptionValue={(option) => option.value}
+                  getOptionValue={(option) => option.name}
                   displayValue={(selected: string) =>
                     permissions.find((option) => option.value === selected)
                       ?.name ?? selected

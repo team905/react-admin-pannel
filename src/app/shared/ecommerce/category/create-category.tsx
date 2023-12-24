@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Text, Title } from '@/components/ui/text';
 import { Form } from '@/components/ui/form';
 import cn from '@/utils/class-names';
+
 import {
   CategoryFormInput,
   categoryFormSchema,
@@ -117,27 +118,34 @@ export default function CreateCategory({
   const config = {
     headers: { Authorization: `Bearer ` }
 };
+
+let baseURL = "http://64.227.177.118:4000"
+
   const onSubmit: SubmitHandler<CategoryFormInput> = (data) => {
     // set timeout ony required to display loading state of the create category button
       
   Axios.post( 
-    'http://localhost:8000/api/v1/get_token_payloads',
-    data,
-    config
-  ).then(console.log).catch(console.log);
-    setLoading(true);
-    setTimeout(() => {
+    `${baseURL}/category`,
+    data
+  ).then((res)=>{
+    if(res){
       setLoading(false);
-      console.log('createCategory data ->', data);
-      setReset({
-        name: '',
-        slug: '',
-        type: '',
-        parentCategory: '',
-        description: '',
-        images: '',
-      });
-    }, 600);
+
+    }
+  }).catch(console.log);
+    // setLoading(true);
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   console.log('createCategory data ->', data);
+    //   setReset({
+    //     name: '',
+    //     slug: '',
+    //     type: '',
+    //     parentCategory: '',
+    //     description: '',
+    //     images: '',
+    //   });
+    // }, 600);
   };
 
   return (
@@ -176,8 +184,8 @@ export default function CreateCategory({
                 <Input
                   label="Included items"
                   placeholder="Included items"
-                  {...register('slug')}
-                  error={errors.slug?.message}
+                  {...register('includedItems')}
+                  error={errors.includedItems?.message}
                 />
                 {/* <Controller
                   name="parentCategory"

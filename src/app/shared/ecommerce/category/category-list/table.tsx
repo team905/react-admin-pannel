@@ -4,7 +4,8 @@ import dynamic from 'next/dynamic';
 import { useColumn } from '@/hooks/use-column';
 import ControlledTable from '@/components/controlled-table';
 import { categories } from '@/data/product-categories';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState ,useEffect } from 'react';
+import Axios from 'axios';
 import { useTable } from '@/hooks/use-table';
 import { getColumns } from '@/app/shared/ecommerce/category/category-list/columns';
 // dynamic import
@@ -65,6 +66,26 @@ export default function CategoryTable() {
       onChecked,
     ]
   );
+  let baseURL = "http://64.227.177.118:4000"
+
+const [categoeyData ,setCategory] = useState<any>([])
+  function getAllCategories() {
+    Axios.post(`${baseURL}/category/all`).then(
+        (response:any) => {
+            var result = response.data;
+            console.log(result,"result");
+            setCategory(result.data)
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+  }
+ 
+    useEffect(()=>{
+      getAllCategories()
+    },[])
+console.log("tableData",tableData ,categoeyData)
 
   const { visibleColumns, checkedColumns, setCheckedColumns } =
     useColumn(columns);
