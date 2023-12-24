@@ -33,14 +33,18 @@ export default function CreateUser() {
   const config = {
     headers: { Authorization: `Bearer ` }
 };
-  const onSubmit: SubmitHandler<CreateUserInput> = (data) => {
+let baseURL = "64.227.177.118:4000/users"
+  const onSubmit: SubmitHandler<CreateUserInput> = async (data) => {
     console.log("data",data)
-  
-  Axios.post( 
-    'http://localhost:8000/api/v1/get_token_payloads',
-    data,
-    config
-  ).then(console.log).catch(console.log);
+    try {
+      const response = await Axios.post(baseURL, data);
+      console.log(response);
+      // if(!response){
+      //   window.location = '/ecommerce'
+      // }
+    } catch (error) {
+      console.log(error);
+    }
     // set timeout ony required to display loading state of the create category button
     const formattedData = {
       ...data,
@@ -78,7 +82,7 @@ export default function CreateUser() {
   }
     useEffect(()=>{
       getAllCategories
-    })
+    },[])
   return (
     <Form<CreateUserInput>
       resetValues={reset}

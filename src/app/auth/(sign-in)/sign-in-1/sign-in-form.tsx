@@ -14,6 +14,7 @@ import { Text } from '@/components/ui/text';
 import { routes } from '@/config/routes';
 import { loginSchema, LoginSchema } from '@/utils/validators/login.schema';
 import Axios from 'axios';
+import { redirect } from 'next/dist/server/api-utils';
 
 const initialValues: LoginSchema = {
   email: 'samplegmail.com',
@@ -25,20 +26,34 @@ export default function SignInForm() {
   //TODO: why we need to reset it here
   const [reset, setReset] = useState({});
 
+let baseURL = "64.227.177.118:4000/auth/login"
 
+const onSubmit = async (data:any) => {
+  try {
+    const response = await Axios.post(baseURL, data);
+    console.log(response);
+    // if(!response){
+    //   window.location = '/ecommerce'
+    // }
+  } catch (error) {
+    console.log(error);
+  }
+};
+  // const onSubmit: SubmitHandler<LoginSchema> = (data) => {
+  //   debugger;
+  //   console.log(data);
+  // Axios.post( '64.227.177.118:4000/auth/login',
+  //   data,
 
-  const onSubmit: SubmitHandler<LoginSchema> = (data) => {
-    console.log(data);
-  Axios.post( 
-    'http://localhost:8000/auth/login',
-    data,
-
-  ).then(console.log).catch(console.log);
-    // signIn('credentials', {
-    //   ...data,
-    // });
-    // setReset({ email: "", password: "", isRememberMe: false });
-  };
+  // ).then(((res)=>{
+  //   console.log("res",res)
+  //   // navigate("/ecommerce");
+  // })).catch(console.log);
+  //   // signIn('credentials', {
+  //   //   ...data,
+  //   // });
+  //   // setReset({ email: "", password: "", isRememberMe: false });
+  // };
 
   return (
     <>

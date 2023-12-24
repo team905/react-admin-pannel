@@ -1,12 +1,13 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useTable } from '@/hooks/use-table';
 import { useColumn } from '@/hooks/use-column';
 import { Button } from '@/components/ui/button';
 import ControlledTable from '@/components/controlled-table';
 import { getColumns } from '@/app/shared/roles-permissions/users-table/columns';
+import Axios from 'axios';
 const FilterElement = dynamic(
   () => import('@/app/shared/roles-permissions/users-table/filter-element'),
   { ssr: false }
@@ -54,7 +55,26 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
     handleDelete,
     handleReset,
   } = useTable(data, pageSize, filterState);
+   //Function for get all categories
+   let baseURL = "64.227.177.118:4000/auth/login"
+   function getAllCategories() {
+    
+    Axios.get(baseURL).then(
+        (response) => {
+            var result = response.data;
+            console.log(result,"result");
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+  }
+  
+    useEffect(()=>{
+      getAllCategories
+    },[])
 
+console.log("tableData",tableData)
   const columns = useMemo(
     () =>
       getColumns({
