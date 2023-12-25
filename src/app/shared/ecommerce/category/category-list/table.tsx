@@ -72,8 +72,11 @@ const [categoeyData ,setCategory] = useState<any>([])
   function getAllCategories() {
     Axios.post(`${baseURL}/category/all`).then(
         (response:any) => {
-            var result = response.data;
-            console.log(result,"result");
+            let result = response.data;
+              result.data.forEach((data:any)=>{
+                data['image'] = "https://isomorphic-furyroad.s3.amazonaws.com/public/categories/bags.webp";
+                data['description'] =  "this is description"
+              });
             setCategory(result.data)
         },
         (error) => {
@@ -95,7 +98,7 @@ console.log("tableData",tableData ,categoeyData)
       variant="modern"
       isLoading={isLoading}
       showLoadingText={true}
-      data={tableData}
+      data={categoeyData}
       // @ts-ignore
       columns={visibleColumns}
       paginatorOptions={{
