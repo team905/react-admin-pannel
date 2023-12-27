@@ -13,7 +13,7 @@ import DeletePopover from '@/app/shared/delete-popover';
 
 type Columns = {
   sortConfig?: any;
-  onDeleteItem: (id: string) => void;
+  onDeleteItem: (id: string) => {};
   onHeaderCellClick: (value: string) => void;
   onChecked?: (event: React.ChangeEvent<HTMLInputElement>, id: string) => void;
 };
@@ -132,7 +132,7 @@ export const getColumns = ({
           placement="top"
           color="invert"
         >
-          <Link href={routes.eCommerce.editCategory(row.id)}>
+          <Link href={routes.eCommerce.editCategory(row._id)}>
             <ActionIcon size="sm" variant="outline">
               <PencilIcon className="h-4 w-4" />
             </ActionIcon>
@@ -140,7 +140,7 @@ export const getColumns = ({
         </Tooltip>
         <DeletePopover
           title={`Delete the category`}
-          description={`Are you sure you want to delete this #${row.id} category?`}
+          description={`Are you sure you want to delete this #${row.name} category?`}
           onDelete={() => onDeleteItem(row.id)}
         />
       </div>

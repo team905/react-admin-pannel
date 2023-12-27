@@ -23,6 +23,7 @@ const filterState = {
 
 export default function UsersTable({ data = [] }: { data: any[] }) {
   const [pageSize, setPageSize] = useState(10);
+  let baseURL = "http://64.227.177.118:4000"
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -31,7 +32,15 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   });
 
   const onDeleteItem = useCallback((id: string) => {
-    handleDelete(id);
+    let data = {"id":id}
+    Axios.post(`${baseURL}/users/deleteUser`,data).then(
+      (response) => {
+          var result = response.data;
+      },
+      (error) => {
+          console.log(error);
+      }
+  );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -57,7 +66,6 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   } = useTable(data, pageSize, filterState);
   const [userDataTable ,setUserDataTable]= useState<any>([])
    //Function for get all categories
-   let baseURL = "http://64.227.177.118:4000"
    function getAlluserDetails() {
     
     Axios.post(`${baseURL}/users/all`).then(
@@ -75,7 +83,6 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
       getAlluserDetails()
     },[])
 
-console.log("tableData",tableData)
   const columns = useMemo(
     () =>
       getColumns({
@@ -98,10 +105,7 @@ console.log("tableData",tableData)
       handleSelectAll,
     ]
   );
-
-  const { visibleColumns, checkedColumns, setCheckedColumns } =
-    useColumn(columns);
-
+  const { visibleColumns, checkedColumns, setCheckedColumns } = useColumn(columns);
   return (
     <div className="mt-14">
       <FilterElement
@@ -118,11 +122,11 @@ console.log("tableData",tableData)
         isLoading={isLoading}
         showLoadingText={true}
         // @ts-ignore
-        // columns={visibleColumns}
+        columns={visibleColumns}
         paginatorOptions={{
           pageSize,
           setPageSize,
-          total: totalItems,
+          total: userDataTable.length,
           current: currentPage,
           onChange: (page: number) => handlePaginate(page),
         }}

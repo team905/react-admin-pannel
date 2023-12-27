@@ -58,6 +58,11 @@ type Columns = {
   onHeaderCellClick: (value: string) => void;
   onChecked?: (id: string) => void;
 };
+let baseURL = "http://64.227.177.118:4000"
+
+const onDeleteItem = () =>{
+  
+}
 
 export const getColumns = ({
   data,
@@ -68,42 +73,42 @@ export const getColumns = ({
   handleSelectAll,
   onChecked,
 }: Columns) => [
-  // {
-  //   title: (
-  //     <div className="flex items-center gap-3 whitespace-nowrap ps-2">
-  //       <Checkbox
-  //         title={'Select All'}
-  //         onChange={handleSelectAll}
-  //         checked={checkedItems.length === data.length}
-  //         className="cursor-pointer"
-  //       />
-  //       User ID
-  //     </div>
-  //   ),
-  //   dataIndex: '_id',
-  //   key: '_id',
-  //   width: 30,
-  //   render: (_: any, row: User) => (
-  //     <div className="inline-flex ps-4">
-  //       <Checkbox
-  //         className="cursor-pointer"
-  //         checked={checkedItems.includes(row.id)}
-  //         {...(onChecked && { onChange: () => onChecked(row.id) })}
-  //         label={`#${row.id}`}
-  //       />
-  //     </div>
-  //   ),
-  // },
+  {
+    title: (
+      <div className="flex items-center gap-3 whitespace-nowrap ps-2">
+        <Checkbox
+          title={'Select All'}
+          onChange={handleSelectAll}
+          checked={checkedItems.length === data.length}
+          className="cursor-pointer"
+        />
+        User ID
+      </div>
+    ),
+    dataIndex: '_id',
+    key: '_id',
+    width: 30,
+    render: (_: any, row: any) => (
+      <div className="inline-flex ps-4">
+        <Checkbox
+          className="cursor-pointer"
+          checked={checkedItems.includes(row._id)}
+          {...(onChecked && { onChange: () => onChecked(row._id) })}
+          label={`${row._id}`}
+        />
+      </div>
+    ),
+  },
   {
     title: <HeaderCell title="Name" />,
     dataIndex: 'name',
     key: 'name',
     width: 250,
-    hidden: 'fullName',
-    render: (_: string, user: User) => (
+    hidden: 'name',
+    render: (_: string, user: any) => (
       <AvatarCard
         src={user.avatar}
-        name={user.fullName}
+        name={user.name}
         description={user.email}
       />
     ),
@@ -172,7 +177,7 @@ export const getColumns = ({
     dataIndex: 'action',
     key: 'action',
     width: 140,
-    render: (_: string, user: User) => (
+    render: (_: string, user: any) => (
       <div className="flex items-center justify-end gap-3 pe-3">
         <Tooltip
           size="sm"
@@ -210,8 +215,8 @@ export const getColumns = ({
         </Tooltip>
         <DeletePopover
           title={`Delete this user`}
-          description={`Are you sure you want to delete this #${user.id} user?`}
-          onDelete={() => onDeleteItem(user.id)}
+          description={`Are you sure you want to delete this ${user.name} user?`}
+          onDelete={() => onDeleteItem(user._id)}
         />
       </div>
     ),

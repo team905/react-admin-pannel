@@ -120,12 +120,13 @@ export default function CreateCategory({
 };
 
 let baseURL = "http://64.227.177.118:4000"
-
+console.log("id",id)
   const onSubmit: SubmitHandler<CategoryFormInput> = (data) => {
     // set timeout ony required to display loading state of the create category button
-      
-  Axios.post( 
-    `${baseURL}/category`,
+      let customUrl = id ? `${baseURL}/category/update` :  `${baseURL}/category`;
+      // if(id){ data['id'] = data};
+      Axios.post( 
+    `${customUrl}`,
     data
   ).then((res)=>{
     if(res){
