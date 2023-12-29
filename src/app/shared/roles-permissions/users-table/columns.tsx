@@ -1,8 +1,8 @@
 'use client';
 
-// import Link from 'next/link';
+import Link from 'next/link';
 import { STATUSES, type User } from '@/data/users-data';
-// import { routes } from '@/config/routes';
+import { routes } from '@/config/routes';
 import { Text } from '@/components/ui/text';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip } from '@/components/ui/tooltip';
@@ -14,6 +14,8 @@ import PencilIcon from '@/components/icons/pencil';
 import AvatarCard from '@/components/ui/avatar-card';
 import DateCell from '@/components/ui/date-cell';
 import DeletePopover from '@/app/shared/delete-popover';
+import ModalButton from '@/app/shared/modal-button';
+import CreateUser from '@/app/shared/roles-permissions/create-user';
 
 function getStatusBadge(status: User['status']) {
   switch (status) {
@@ -185,13 +187,16 @@ export const getColumns = ({
           placement="top"
           color="invert"
         >
-          {/* <Link href={routes.invoice.edit(user.id)}> */}
+          {/* <Link href={routes.invoice.edit(user._id)}> */}
+         
           <ActionIcon
             tag="span"
             size="sm"
             variant="outline"
             className="hover:!border-gray-900 hover:text-gray-700"
           >
+             <ModalButton view={<CreateUser />}
+          />
             <PencilIcon className="h-4 w-4" />
           </ActionIcon>
           {/* </Link> */}
@@ -202,7 +207,7 @@ export const getColumns = ({
           placement="top"
           color="invert"
         >
-          {/* <Link href={routes.invoice.details(user.id)}> */}
+          <Link href={routes.invoice.details(user.id)}>
           <ActionIcon
             tag="span"
             size="sm"
@@ -211,7 +216,7 @@ export const getColumns = ({
           >
             <EyeIcon className="h-4 w-4" />
           </ActionIcon>
-          {/* </Link> */}
+          </Link>
         </Tooltip>
         <DeletePopover
           title={`Delete this user`}
