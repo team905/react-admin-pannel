@@ -23,6 +23,8 @@ const filterState = {
 
 export default function UsersTable({ data = [] }: { data: any[] }) {
   const [pageSize, setPageSize] = useState(10);
+  const [currentPageSelected, setCurrentPageSelected] = useState(1);
+
   let baseURL = "http://64.227.177.118:4000"
 
   const onHeaderCellClick = (value: string) => ({
@@ -36,6 +38,7 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
     Axios.post(`${baseURL}/users/deleteUser`,data).then(
       (response) => {
           var result = response.data;
+          handleReset()
       },
       (error) => {
           console.log(error);
@@ -67,11 +70,10 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   const [userDataTable ,setUserDataTable]= useState<any>([])
    //Function for get all categories
    function getAlluserDetails() {
-    
     Axios.post(`${baseURL}/users/all`).then(
         (response) => {
             var result = response.data;
-            setUserDataTable(result.data)
+            setUserDataTable(result)
         },
         (error) => {
             console.log(error);
@@ -83,6 +85,20 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
       getAlluserDetails()
     },[])
 
+    // FUNCTION FOR PAGINATION
+    const handlePaginateFunc = (page:any) =>{
+      setCurrentPageSelected(page)
+      Axios.post(`${baseURL}/users/all`,{"page": page,"limit": "10"}).then(
+        (response) => {
+            var result = response.data;
+            setUserDataTable(result)
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+    }
+  
   const columns = useMemo(
     () =>
       getColumns({
@@ -118,7 +134,7 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
       />
       <ControlledTable
         variant="modern"
-        data={userDataTable}
+        data={userDataTable.data}
         isLoading={isLoading}
         showLoadingText={true}
         // @ts-ignore
@@ -126,9 +142,9 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
         paginatorOptions={{
           pageSize,
           setPageSize,
-          total: userDataTable.length,
-          current: currentPage,
-          onChange: (page: number) => handlePaginate(page),
+          total: userDataTable?.total,
+          current: currentPageSelected,
+          onChange: (page: number) => handlePaginateFunc(page),
         }}
         tableFooter={
           <TableFooter

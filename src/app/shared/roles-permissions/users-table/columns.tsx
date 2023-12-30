@@ -60,12 +60,6 @@ type Columns = {
   onHeaderCellClick: (value: string) => void;
   onChecked?: (id: string) => void;
 };
-let baseURL = "http://64.227.177.118:4000"
-
-const onDeleteItem = () =>{
-  
-}
-
 export const getColumns = ({
   data,
   sortConfig,
@@ -195,8 +189,8 @@ export const getColumns = ({
             variant="outline"
             className="hover:!border-gray-900 hover:text-gray-700"
           >
-             <ModalButton view={<CreateUser />}
-          />
+             {/* <ModalButton view={<CreateUser />}
+          /> */}
             <PencilIcon className="h-4 w-4" />
           </ActionIcon>
           {/* </Link> */}
