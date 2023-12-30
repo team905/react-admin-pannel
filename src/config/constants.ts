@@ -29,14 +29,6 @@ export const ROW_PER_PAGE_OPTIONS = [
 ];
 
 export const ROLES = {
-  User: 'User',
-  Shop:'Shop'
-  
-  // Manager: 'Manager',
-  // Sales: 'Sales',
-  // Support: 'Support',
-  // Developer: 'Developer',
-  // HRD: 'HR Department',
-  // RestrictedUser: 'Restricted User',
-  // Customer: 'Customer',
+  USER: 'USER',
+  SHOP:'SHOP',
 } as const;

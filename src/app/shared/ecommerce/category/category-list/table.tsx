@@ -66,7 +66,7 @@ export default function CategoryTable() {
       onChecked,
     ]
   );
-  let baseURL = "http://64.227.177.118:4000"
+  let baseURL = "https://delicate-cleanly-cat.ngrok-free.app"
 
 const [categoeyData ,setCategory] = useState<any>([])
   function getAllCategories() {

@@ -8,8 +8,9 @@ export const createUserSchema = z.object({
   email: validateEmail,
   phone:z.string().min(1, { message: messages.phoneIsRequired }),
   role: z.string().min(1, { message: messages.roleIsRequired }),
+  password: z.string().min(1, { message: messages.passwordIsRequired }),
   // categoryAccess: z.string().min(1, { message: messages.permissionIsRequired }),
-  status: z.string().min(1, { message: messages.statusIsRequired }),
+  // status: z.string().min(1, { message: messages.statusIsRequired }),
 });
 
 // generate form types from zod validation schema

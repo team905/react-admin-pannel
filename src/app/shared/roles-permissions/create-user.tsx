@@ -35,13 +35,17 @@ export default function CreateUser() {
   const config = {
     headers: { Authorization: `Bearer ` }
 };
-let baseURL = "http://64.227.177.118:4000"
-const onSubmit: SubmitHandler<CreateUserInput> = async (data) => {
+let baseURL = "https://delicate-cleanly-cat.ngrok-free.app"
+const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
     let categoryAccess:any = []
     selectedList.forEach((item:any)=>{
       categoryAccess.push(item?._id)
     })
     data['categoryAccess'] = categoryAccess
+    data['avtar'] = "image.png"
+    data['latitude'] = "20.988760337494558"
+    data['longitude'] = "75.55944155430889"
+
     try {
       const response = await Axios.post(`${baseURL}/users`, data);
       console.log(response);
@@ -113,7 +117,6 @@ console.log("selectedList",selectedList)
       className="grid grid-cols-1 gap-6 p-6 @container md:grid-cols-2 [&_.rizzui-input-label]:font-medium [&_.rizzui-input-label]:text-gray-900"
     >
       {({ register, control, watch, formState: { errors } }) => {
-        console.log('errors', errors);
 
         return (
           <>
@@ -140,6 +143,14 @@ console.log("selectedList",selectedList)
               {...register('email')}
               error={errors.email?.message}
             />
+            <Input
+              label="Password"
+              placeholder="Enter password"
+              className="col-span-full"
+              {...register('password')}
+              error={errors.password?.message}
+            />
+
 
             <Input
                 label="Phone"
@@ -160,7 +171,7 @@ console.log("selectedList",selectedList)
                   name={name}
                   label="Role"
                   className="col-span-full"
-                  error={errors?.status?.message}
+                  // error={errors?.roles?.message}
                   getOptionValue={(option) => option.value}
                   displayValue={(selected: string) =>
                     roles.find((option) => option.value === selected)?.name ??
@@ -196,7 +207,7 @@ console.log("selectedList",selectedList)
         setValue={setValue}
       /> */}
     </FormGroup>
-      <Controller
+      {/* <Controller
               name="status"
               control={control}
               render={({ field: { name, onChange, value } }) => (
@@ -215,7 +226,7 @@ console.log("selectedList",selectedList)
                 />
               )}
             />
-           
+            */}
 
             {/* <Controller
               name="categoryAccess"

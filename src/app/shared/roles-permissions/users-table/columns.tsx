@@ -146,16 +146,16 @@ export const getColumns = ({
     dataIndex: 'categoryAccess',
     key: 'categoryAccess',
     width: 200,
-    render: (categoryAccess: User['permissions'][]) => (
+    render: (categoryAccess: User[]) => (
       <div className="flex items-center gap-2">
-        {categoryAccess.map((categoryAccess) => (
+        {categoryAccess.map((categoryAccess:any) => (
           <Badge
-            key={categoryAccess}
+            // key={categoryAccess}
             rounded="lg"
             variant="outline"
             className="border-gray-200 font-normal text-gray-500"
           >
-            {categoryAccess}
+            {categoryAccess?.name}
           </Badge>
         ))}
       </div>
