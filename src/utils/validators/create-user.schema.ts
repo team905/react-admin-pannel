@@ -8,7 +8,7 @@ export const createUserSchema = z.object({
   email: validateEmail,
   phone:z.string().min(1, { message: messages.phoneIsRequired }),
   role: z.string().min(1, { message: messages.roleIsRequired }),
-  categoryAccess: z.string().min(1, { message: messages.permissionIsRequired }),
+  // categoryAccess: z.string().min(1, { message: messages.permissionIsRequired }),
   status: z.string().min(1, { message: messages.statusIsRequired }),
 });
 

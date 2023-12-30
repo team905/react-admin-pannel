@@ -11,6 +11,7 @@ import { useFormContext } from 'react-hook-form';
 import FormGroup from '@/app/shared/form-group';
 import Axios from 'axios';
 import cn from '@/utils/class-names';
+import Multiselect from 'multiselect-react-dropdown';
 import {
   CreateUserInput,
   createUserSchema,
@@ -29,13 +30,18 @@ export default function CreateUser() {
   const [reset, setReset] = useState({});
   const [isLoading, setLoading] = useState(false);
   const [categoryData, setCategory] = useState([]);
+  const [selectedList, setSelectedList] = useState([]);
 
   const config = {
     headers: { Authorization: `Bearer ` }
 };
 let baseURL = "http://64.227.177.118:4000"
 const onSubmit: SubmitHandler<CreateUserInput> = async (data) => {
-    console.log("data",data)
+    let categoryAccess:any = []
+    selectedList.forEach((item:any)=>{
+      categoryAccess.push(item?._id)
+    })
+    data['categoryAccess'] = categoryAccess
     try {
       const response = await Axios.post(`${baseURL}/users`, data);
       console.log(response);
@@ -86,9 +92,19 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data) => {
     );
   }
  
-    useEffect(()=>{
-      getAllCategories()
-    },[])
+  useEffect(()=>{
+    getAllCategories()
+  },[])
+
+
+  const onSelect = (selectedListData:any, selectedItem:any) => {
+    setSelectedList(selectedListData)
+  }
+  const onRemove = (selectedListData:any, selectedItem:any) => {
+    setSelectedList(selectedListData)
+  }
+console.log("selectedList",selectedList)
+  
   return (
     <Form<CreateUserInput>
       resetValues={reset}
@@ -132,7 +148,7 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data) => {
                 {...register('phone')}
                 error={errors.phone?.message}
               />
-
+             
             <Controller
               name="role"
               control={control}
@@ -153,7 +169,20 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data) => {
                 />
               )}
             />
-
+           
+           <div className="rizzui-input-root flex flex-col col-span-full">
+              <label className="block"><span className='rizzui-input-label block text-sm mb-1.5'>Category Access</span></label>
+              <Multiselect
+                displayValue="name"
+                onKeyPressFn={function noRefCheck(){}}
+                onRemove={onRemove}
+                onSearch={function noRefCheck(){}}
+                onSelect={onSelect}
+                options={categoryData}
+                className="col-span-full"
+                // selectedValueDecorator={function noRefCheck(){}}
+              />
+            </div>
             
           <FormGroup
       title="Upload logo"
@@ -186,7 +215,9 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data) => {
                 />
               )}
             />
-            <Controller
+           
+
+            {/* <Controller
               name="categoryAccess"
               control={control}
               render={({ field: { name, onChange, value } }) => (
@@ -204,7 +235,7 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data) => {
                   }
                 />
               )}
-            />
+            /> */}
 
             <div className="col-span-full flex items-center justify-end gap-4">
               <Button
