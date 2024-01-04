@@ -119,7 +119,7 @@ export default function CreateCategory({
     headers: { Authorization: `Bearer ` }
 };
 
-let baseURL = "https://delicate-cleanly-cat.ngrok-free.app"
+let baseURL = "http://64.227.177.118:8000"
 console.log("id",id)
   const onSubmit: SubmitHandler<CategoryFormInput> = (data) => {
     // set timeout ony required to display loading state of the create category button

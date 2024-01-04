@@ -15,7 +15,7 @@ import Multiselect from 'multiselect-react-dropdown';
 import {
   CreateUserInput,
   createUserSchema,
-} from '@/utils/validators/create-user.schema';
+} from '@/utils/validators/http://64.227.177.118:8000er.schema';
 import { Title } from '@/components/ui/text';
 import Select from '@/components/ui/select';
 import { useModal } from '@/app/shared/modal-views/use-modal';
@@ -35,7 +35,7 @@ export default function CreateUser() {
   const config = {
     headers: { Authorization: `Bearer ` }
 };
-let baseURL = "https://delicate-cleanly-cat.ngrok-free.app"
+let baseURL = "http://64.227.177.118:8000"
 const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
     let categoryAccess:any = []
     selectedList.forEach((item:any)=>{

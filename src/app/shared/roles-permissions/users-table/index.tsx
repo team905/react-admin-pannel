@@ -25,7 +25,7 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   const [pageSize, setPageSize] = useState(10);
   const [currentPageSelected, setCurrentPageSelected] = useState(1);
 
-  let baseURL = "https://delicate-cleanly-cat.ngrok-free.app"
+  let baseURL = "http://64.227.177.118:8000"
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
