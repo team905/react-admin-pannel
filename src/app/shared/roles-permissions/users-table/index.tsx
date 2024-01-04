@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button';
 import ControlledTable from '@/components/controlled-table';
 import { getColumns } from '@/app/shared/roles-permissions/users-table/columns';
 import Axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 const FilterElement = dynamic(
   () => import('@/app/shared/roles-permissions/users-table/filter-element'),
   { ssr: false }
@@ -23,6 +25,8 @@ const filterState = {
 
 export default function UsersTable({ data = [] }: { data: any[] }) {
   const [pageSize, setPageSize] = useState(10);
+  const [searchTerm1, setsearchTerm] = useState('');
+
   const [currentPageSelected, setCurrentPageSelected] = useState(1);
 
   let baseURL = "http://64.227.177.118:8000"
@@ -38,7 +42,10 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
     Axios.post(`${baseURL}/users/deleteUser`,data).then(
       (response) => {
           var result = response.data;
-          handleReset()
+          getAlluserDetails({})
+          toast.success(response.data.message);
+         
+
       },
       (error) => {
           console.log(error);
@@ -69,8 +76,8 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   } = useTable(data, pageSize, filterState);
   const [userDataTable ,setUserDataTable]= useState<any>([])
    //Function for get all categories
-   function getAlluserDetails() {
-    Axios.post(`${baseURL}/users/all`).then(
+   function getAlluserDetails(data:any) {
+    Axios.post(`${baseURL}/users/all`,data).then(
         (response) => {
             var result = response.data;
             setUserDataTable(result)
@@ -80,9 +87,15 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
         }
     );
   }
-  
+  const handleSearchdata = (data:any) =>{
+    setsearchTerm(data)
+    let data1 = { "page": "1",
+    "limit": "10",
+    "search": data}
+    getAlluserDetails(data1)
+  }
     useEffect(()=>{
-      getAlluserDetails()
+      getAlluserDetails({})
     },[])
 
     // FUNCTION FOR PAGINATION
@@ -124,13 +137,15 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   const { visibleColumns, checkedColumns, setCheckedColumns } = useColumn(columns);
   return (
     <div className="mt-14">
+        <ToastContainer />
+
       <FilterElement
         isFiltered={isFiltered}
         filters={filters}
         updateFilter={updateFilter}
         handleReset={handleReset}
-        onSearch={handleSearch}
-        searchTerm={searchTerm}
+        onSearch={handleSearchdata}
+        searchTerm={searchTerm1}
       />
       <ControlledTable
         variant="modern"

@@ -15,7 +15,7 @@ import Multiselect from 'multiselect-react-dropdown';
 import {
   CreateUserInput,
   createUserSchema,
-} from '@/utils/validators/http://64.227.177.118:8000er.schema';
+} from '@/utils/validators/create-user.schema';
 import { Title } from '@/components/ui/text';
 import Select from '@/components/ui/select';
 import { useModal } from '@/app/shared/modal-views/use-modal';
@@ -24,6 +24,8 @@ import {
   roles,
   statuses,
 } from '@/app/shared/roles-permissions/utils';
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import UploadZone from '@/components/ui/file-upload/upload-zone';
 export default function CreateUser() {
   const { closeModal } = useModal();
@@ -51,14 +53,22 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
       console.log(response);
       if(response){
          setLoading(false);
-
-      closeModal();
+         if (response.data['errors'] !== undefined){
+          toast.error(response.data.message);
+         } else {
+          toast.success(response.data.message);
+          closeModal();
+         }
+        //  {errors}
+        
+ 
       }
       // if(!response){
       //   window.location = '/ecommerce'
       // }
-    } catch (error) {
+    } catch (error:any) {
       console.log(error);
+      toast.error(error.message);
     }
     // set timeout ony required to display loading state of the create category button
     // const formattedData = {
@@ -107,10 +117,11 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
   const onRemove = (selectedListData:any, selectedItem:any) => {
     setSelectedList(selectedListData)
   }
-console.log("selectedList",selectedList)
   
   return (
-    <Form<CreateUserInput>
+    <>
+            <ToastContainer />
+            <Form<CreateUserInput>
       resetValues={reset}
       onSubmit={onSubmit}
       validationSchema={createUserSchema}
@@ -171,7 +182,7 @@ console.log("selectedList",selectedList)
                   name={name}
                   label="Role"
                   className="col-span-full"
-                  // error={errors?.roles?.message}
+                  error={errors?.role?.message}
                   getOptionValue={(option) => option.value}
                   displayValue={(selected: string) =>
                     roles.find((option) => option.value === selected)?.name ??
@@ -268,5 +279,7 @@ console.log("selectedList",selectedList)
         );
       }}
     </Form>
+    </>
+    
   );
 }

@@ -14,11 +14,13 @@ import { routes } from '@/config/routes';
 import { loginSchema, LoginSchema } from '@/utils/validators/login.schema';
 import Axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 import Link from 'next/link';
 
 const initialValues: LoginSchema = {
-  email: 'admin@gmail.com',
+  email: 'sample10@gmail.com',
   password: 'test@123',
 };
 
@@ -34,6 +36,7 @@ const onSubmit = async (data:any) => {
     console.log(response.data);
     if(response.data.message =="Login successful"){
       localStorage.setItem('userData',JSON.stringify(response.data.user));
+      toast.success(response.data.message);
       router.push('/ecommerce');
      
     }
@@ -42,8 +45,10 @@ const onSubmit = async (data:any) => {
     // if(!response){
     //   window.location = '/ecommerce'
     // }
-  } catch (error) {
+  } catch (error:any) {
     console.log(error);
+    toast.error(error.response.data.message);
+
   }
 };
   // const onSubmit: SubmitHandler<LoginSchema> = (data) => {
@@ -64,6 +69,7 @@ const onSubmit = async (data:any) => {
 
   return (
     <>
+        <ToastContainer />
       <Form<LoginSchema>
         validationSchema={loginSchema}
         resetValues={reset}

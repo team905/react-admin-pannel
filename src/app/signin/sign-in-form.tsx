@@ -13,27 +13,49 @@ import { Form } from '@/components/ui/form';
 import { Text } from '@/components/ui/text';
 import { routes } from '@/config/routes';
 import { loginSchema, LoginSchema } from '@/utils/validators/login.schema';
+import axios, { Axios } from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from 'next/navigation';
+
 
 const initialValues: LoginSchema = {
-  email: 'admin@admin.com',
-  password: 'admin',
-  rememberMe: true,
+  email: 'sample10@gmail.com',
+  password: 'test@123',
 };
 
 export default function SignInForm() {
   //TODO: why we need to reset it here
   const [reset, setReset] = useState({});
+  let baseURL = "http://64.227.177.118:8000"
+  const router = useRouter();
 
-  const onSubmit: SubmitHandler<LoginSchema> = (data) => {
+  const onSubmit: SubmitHandler<LoginSchema>  = async (data:any) => {
     console.log(data);
+    try {
+      const response = await axios.post(`${baseURL}/auth/login`, data);
+      console.log(response);
+      if(response){
+        toast.success(response.data.message);
+        router.push('/ecommerce');
+
+      }
+      // if(!response){
+      //   window.location = '/ecommerce'
+      // }
+    } catch (error:any) {
+      toast.error(error.response.data.message);
+
+    }
     // signIn('credentials', {
     //   ...data,
     // });
-    // setReset({ email: "", password: "", isRememberMe: false });
+    setReset({ email: "", password: "", isRememberMe: false });
   };
 
   return (
     <>
+    <ToastContainer />
       <Form<LoginSchema>
         validationSchema={loginSchema}
         resetValues={reset}
