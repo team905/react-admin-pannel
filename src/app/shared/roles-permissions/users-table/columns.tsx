@@ -84,13 +84,13 @@ export const getColumns = ({
     dataIndex: '_id',
     key: '_id',
     width: 30,
-    render: (_: any, row: any) => (
+    render: (_: any, row: any,index:number) => (
       <div className="inline-flex ps-4">
         <Checkbox
           className="cursor-pointer"
           checked={checkedItems.includes(row._id)}
           {...(onChecked && { onChange: () => onChecked(row._id) })}
-          label={`${row._id}`}
+          label={`${index + 1}`}
         />
       </div>
     ),

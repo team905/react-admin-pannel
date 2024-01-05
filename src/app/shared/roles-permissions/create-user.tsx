@@ -27,13 +27,15 @@ import {
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import UploadZone from '@/components/ui/file-upload/upload-zone';
+import { useRouter } from 'next/navigation';
+import path from 'path';
 export default function CreateUser() {
   const { closeModal } = useModal();
   const [reset, setReset] = useState({});
   const [isLoading, setLoading] = useState(false);
   const [categoryData, setCategory] = useState([]);
   const [selectedList, setSelectedList] = useState([]);
-
+  const router = useRouter()
   const config = {
     headers: { Authorization: `Bearer ` }
 };
@@ -57,6 +59,8 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
           toast.error(response.data.message);
          } else {
           toast.success(response.data.message);
+          // router.replace(router.as);
+          window.location.reload()
           closeModal();
          }
         //  {errors}
@@ -206,11 +210,13 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
               />
             </div>
             
+            
           <FormGroup
-      title="Upload logo"
-      description="Upload logo here"
-      // className={cn(className)}
-    >
+            title="Upload logo"
+            description="Upload logo here"
+            // className={cn(className)}
+          >
+      <input type="file" />
       {/* <UploadZone
         className="col-span-full"
         name="productImages"
