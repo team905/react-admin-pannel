@@ -29,12 +29,14 @@ import "react-toastify/dist/ReactToastify.css";
 import UploadZone from '@/components/ui/file-upload/upload-zone';
 import { useRouter } from 'next/navigation';
 import path from 'path';
-export default function CreateUser() {
+export default function CreateUser(props:any) {
   const { closeModal } = useModal();
   const [reset, setReset] = useState({});
   const [isLoading, setLoading] = useState(false);
   const [categoryData, setCategory] = useState([]);
   const [selectedList, setSelectedList] = useState([]);
+  // const [selectedOptions, setSelectedOptions] = useState(props.user?.categoryAccess) 
+
   const router = useRouter()
   const config = {
     headers: { Authorization: `Bearer ` }
@@ -50,8 +52,10 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
     data['latitude'] = "20.988760337494558"
     data['longitude'] = "75.55944155430889"
 
+    let customUrl = props.id ? `${baseURL}/users/updateUser` :  `${baseURL}/users`;
+      if(props.id){ data['id'] = props.id};
     try {
-      const response = await Axios.post(`${baseURL}/users`, data);
+      const response = await Axios.post(`${customUrl}`, data);
       console.log(response);
       if(response){
          setLoading(false);
@@ -128,6 +132,10 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
             <Form<CreateUserInput>
       resetValues={reset}
       onSubmit={onSubmit}
+      useFormProps={{
+        mode: 'onChange',
+        defaultValues: props.user,
+      }}
       validationSchema={createUserSchema}
       className="grid grid-cols-1 gap-6 p-6 @container md:grid-cols-2 [&_.rizzui-input-label]:font-medium [&_.rizzui-input-label]:text-gray-900"
     >
@@ -137,7 +145,7 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
           <>
             <div className="col-span-full flex items-center justify-between">
               <Title as="h4" className="font-semibold">
-                Add a new User
+              {props.id ? " Update User" : " Add a new User" }
               </Title>
               <ActionIcon size="sm" variant="text" onClick={closeModal}>
                 <PiXBold className="h-auto w-5" />
@@ -205,6 +213,7 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
                 onSearch={function noRefCheck(){}}
                 onSelect={onSelect}
                 options={categoryData}
+                // value={value}
                 className="col-span-full"
                 // selectedValueDecorator={function noRefCheck(){}}
               />
@@ -283,7 +292,7 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
                 isLoading={isLoading}
                 className="w-full @xl:w-auto dark:bg-gray-200 dark:text-white dark:active:enabled:bg-gray-300"
               >
-                Create User
+               {props.id ? "Update" : "Create" } User
               </Button>
             </div>
           </>

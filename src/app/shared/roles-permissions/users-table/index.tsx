@@ -10,6 +10,8 @@ import { getColumns } from '@/app/shared/roles-permissions/users-table/columns';
 import Axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import CreateUser from '@/app/shared/roles-permissions/create-user';
+import { useModal } from '@/app/shared/modal-views/use-modal';
 const FilterElement = dynamic(
   () => import('@/app/shared/roles-permissions/users-table/filter-element'),
   { ssr: false }
@@ -102,7 +104,15 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
    
     }
    
-
+    const { openModal } = useModal();
+    const openModalFunction = (id: any,userData:any)=>{
+      const view = <CreateUser id={id} user={userData} /> 
+      const customSize = '500px';
+      openModal({
+        view,
+        // customSize,
+      })
+    }
   
   const columns = useMemo(
     () =>
@@ -114,7 +124,8 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
         onDeleteItem,
         onChecked: handleRowSelect,
         handleSelectAll,
-        pageSize
+        pageSize,
+        openModalFunction
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
@@ -125,6 +136,7 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
       onDeleteItem,
       handleRowSelect,
       handleSelectAll,
+      openModalFunction
     ]
   );
   const { visibleColumns, checkedColumns, setCheckedColumns } = useColumn(columns);

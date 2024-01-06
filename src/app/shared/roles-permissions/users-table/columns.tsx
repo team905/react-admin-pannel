@@ -16,6 +16,7 @@ import DateCell from '@/components/ui/date-cell';
 import DeletePopover from '@/app/shared/delete-popover';
 import ModalButton from '@/app/shared/modal-button';
 import CreateUser from '@/app/shared/roles-permissions/create-user';
+import { useModal } from '@/app/shared/modal-views/use-modal';
 
 function getStatusBadge(status: User['status']) {
   switch (status) {
@@ -59,7 +60,8 @@ type Columns = {
   onDeleteItem: (id: string) => void;
   onHeaderCellClick: (value: string) => void;
   onChecked?: (id: string) => void;
-  pageSize:any
+  pageSize:any;
+  openModalFunction: (id: string,data:any) => {};
 };
 export const getColumns = ({
   data,
@@ -69,6 +71,7 @@ export const getColumns = ({
   onHeaderCellClick,
   handleSelectAll,
   onChecked,
+  openModalFunction
 }: Columns) => [
   {
     title: (
@@ -192,7 +195,7 @@ export const getColumns = ({
           >
              {/* <ModalButton view={<CreateUser />}
           /> */}
-            <PencilIcon className="h-4 w-4" />
+            <PencilIcon className="h-4 w-4" onClick={()=>openModalFunction(user._id,user)} />
           </ActionIcon>
           {/* </Link> */}
         </Tooltip>
