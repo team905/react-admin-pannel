@@ -59,6 +59,7 @@ type Columns = {
   onDeleteItem: (id: string) => void;
   onHeaderCellClick: (value: string) => void;
   onChecked?: (id: string) => void;
+  pageSize:any
 };
 export const getColumns = ({
   data,
@@ -147,7 +148,7 @@ export const getColumns = ({
     key: 'categoryAccess',
     width: 200,
     render: (categoryAccess: User[]) => (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2" style={{width:'20em',overflowX:'auto'}}>
         {categoryAccess.map((categoryAccess:any) => (
           <Badge
             // key={categoryAccess}

@@ -5,7 +5,7 @@ import { fileSchema } from '@/utils/validators/common-rules';
 // form zod validation schema
 export const categoryFormSchema = z.object({
   name: z.string().min(1, { message: messages.catNameIsRequired }),
-  includedItems: z.string().min(1, { message: messages.slugIsRequired }),
+  // includedItems: z.string().min(1, { message: messages.slugIsRequired }),
   type: z.string().optional(),
   parentCategory: z.string().optional(),
   description: z.string().optional(),

@@ -26,8 +26,6 @@ const filterState = {
 export default function UsersTable({ data = [] }: { data: any[] }) {
   const [pageSize, setPageSize] = useState(10);
   const [searchTerm1, setsearchTerm] = useState('');
-  console.log("pageSize",pageSize)
-
   const [currentPageSelected, setCurrentPageSelected] = useState(1);
   let baseURL = "http://64.227.177.118:8000"
 
@@ -74,6 +72,7 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
     handleDelete,
     handleReset,
   } = useTable(data, pageSize, filterState);
+  let pageData = {"page": currentPageSelected,"limit": pageSize}
   const [userDataTable ,setUserDataTable]= useState<any>([])
    //Function for get all categories
    function getAlluserDetails(data:any) {
@@ -90,28 +89,21 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   }
   const handleSearchdata = (data:any) =>{
     setsearchTerm(data)
-    let data1 = { "page": "1",
-    "limit": "10",
-    "search": data}
-    getAlluserDetails(data1)
+    getAlluserDetails(pageData)
   }
     useEffect(()=>{
-      getAlluserDetails({})
+      getAlluserDetails(pageData)
     },[pageSize])
 
     // FUNCTION FOR PAGINATION
     const handlePaginateFunc = (page:any) =>{
       setCurrentPageSelected(page)
-      Axios.post(`${baseURL}/users/all`,{"page": page,"limit": "10"}).then(
-        (response) => {
-            var result = response.data;
-            setUserDataTable(result)
-        },
-        (error) => {
-            console.log(error);
-        }
-    );
+   
     }
+    useEffect(()=>{
+      getAlluserDetails(pageData)
+    },[currentPageSelected])
+
   
   const columns = useMemo(
     () =>
@@ -123,6 +115,7 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
         onDeleteItem,
         onChecked: handleRowSelect,
         handleSelectAll,
+        pageSize
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [

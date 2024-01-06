@@ -131,7 +131,7 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
       validationSchema={createUserSchema}
       className="grid grid-cols-1 gap-6 p-6 @container md:grid-cols-2 [&_.rizzui-input-label]:font-medium [&_.rizzui-input-label]:text-gray-900"
     >
-      {({ register, control, watch, formState: { errors } }) => {
+      {({ register, control, getValues, setValue,  watch, formState: { errors } }) => {
 
         return (
           <>
@@ -210,20 +210,25 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
               />
             </div>
             
-            
-          <FormGroup
-            title="Upload logo"
-            description="Upload logo here"
-            // className={cn(className)}
-          >
-      <input type="file" />
-      {/* <UploadZone
-        className="col-span-full"
-        name="productImages"
-        getValues={getValues}
-        setValue={setValue}
-      /> */}
-    </FormGroup>
+            {/* <HorizontalFormBlockWrapper
+                title="Upload new thumbnail image"
+                description="Upload your product image gallery here"
+                isModalView={isModalView}
+              > */}
+               
+              {/* </HorizontalFormBlockWrapper> */}
+                <FormGroup
+                  title="Upload logo"
+                  // description="Upload logo here"
+                  className="col-span-full"
+                  >
+                <UploadZone
+                    name="images"
+                    getValues={getValues}
+                    setValue={setValue}
+                    className="col-span-full"
+                  />
+                </FormGroup>
       {/* <Controller
               name="status"
               control={control}

@@ -10,7 +10,8 @@ import { Input } from '@/components/ui/input';
 import { Text, Title } from '@/components/ui/text';
 import { Form } from '@/components/ui/form';
 import cn from '@/utils/class-names';
-
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import {
   CategoryFormInput,
   categoryFormSchema,
@@ -120,7 +121,6 @@ export default function CreateCategory({
 };
 
 let baseURL = "http://64.227.177.118:8000"
-console.log("id",id)
   const onSubmit: SubmitHandler<CategoryFormInput> = (data) => {
     // set timeout ony required to display loading state of the create category button
       let customUrl = id ? `${baseURL}/category/update` :  `${baseURL}/category`;
@@ -130,6 +130,8 @@ console.log("id",id)
     data
   ).then((res)=>{
     if(res){
+      toast.success(res.data.message);
+      window.location.reload()
       setLoading(false);
 
     }
@@ -162,6 +164,8 @@ console.log("id",id)
     >
       {({ register, control, getValues, setValue, formState: { errors } }) => (
         <>
+                    {/* <ToastContainer /> */}
+
           <div className="flex-grow pb-10">
             <div
               className={cn(
@@ -185,8 +189,8 @@ console.log("id",id)
                 <Input
                   label="Included items"
                   placeholder="Included items"
-                  {...register('includedItems')}
-                  error={errors.includedItems?.message}
+                  // {...register('includedItems')}
+                  // error={errors.includedItems?.message}
                 />
                 {/* <Controller
                   name="parentCategory"

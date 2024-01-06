@@ -13,7 +13,7 @@ export const config = {
     '/',
     '/analytics',
     '/logistics/:path*',
-    '/ecommerce/:path*',
+    // '/ecommerce/:path*',
     '/support/:path*',
     '/file/:path*',
     '/file-manager',

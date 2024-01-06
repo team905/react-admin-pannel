@@ -29,13 +29,14 @@ export const getColumns = ({
     dataIndex: 'checked',
     key: 'checked',
     width: 30,
-    render: (_: any, row: any) => (
+    render: (_: any, row: any,index:number) => (
       <div className="inline-flex ps-2">
         <Checkbox
           value={row.id}
           className="cursor-pointer"
           {...(onChecked && { onChange: (e) => onChecked(e, e.target.value) })}
         />
+       <span className='ml-3'>  {index + 1} </span>
       </div>
     ),
   },
@@ -83,7 +84,7 @@ export const getColumns = ({
     key: 'description',
     width: 250,
     render: (description: string) => (
-      <Text className="truncate !text-sm ">{description}</Text>
+      <Text className="truncate !text-sm "><div dangerouslySetInnerHTML={{__html: description}} ></div></Text>
     ),
   },
   {
@@ -102,25 +103,25 @@ export const getColumns = ({
     width: 200,
     render: (slug: string) => <Text>{slug}</Text>,
   },
+  // {
+  //   title: (
+  //     <HeaderCell
+  //       title="Products"
+  //       align="center"
+  //       sortable
+  //       ascending={
+  //         sortConfig?.direction === 'asc' && sortConfig?.key === 'products'
+  //       }
+  //     />
+  //   ),
+  //   onHeaderCell: () => onHeaderCellClick('products'),
+  //   dataIndex: 'products',
+  //   key: 'products',
+  //   width: 120,
+  //   render: (products: any) => <div className="text-center">{products}</div>,
+  // },
   {
-    title: (
-      <HeaderCell
-        title="Products"
-        align="center"
-        sortable
-        ascending={
-          sortConfig?.direction === 'asc' && sortConfig?.key === 'products'
-        }
-      />
-    ),
-    onHeaderCell: () => onHeaderCellClick('products'),
-    dataIndex: 'products',
-    key: 'products',
-    width: 120,
-    render: (products: any) => <div className="text-center">{products}</div>,
-  },
-  {
-    title: <></>,
+    title: <>Action</>,
     dataIndex: 'action',
     key: 'action',
     width: 100,
@@ -141,7 +142,7 @@ export const getColumns = ({
         <DeletePopover
           title={`Delete the category`}
           description={`Are you sure you want to delete this #${row.name} category?`}
-          onDelete={() => onDeleteItem(row.id)}
+          onDelete={() => onDeleteItem(row._id)}
         />
       </div>
     ),
