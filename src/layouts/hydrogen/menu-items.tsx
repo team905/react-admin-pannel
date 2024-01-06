@@ -247,7 +247,7 @@ export const menuItems = [
   //   icon: <PiCalendarPlusDuotone />,
   // },
   {
-    name: 'Roles & Permissions',
+    name: 'Users',
     href: routes.rolesPermissions,
     icon: <PiFolderLockDuotone />,
   },

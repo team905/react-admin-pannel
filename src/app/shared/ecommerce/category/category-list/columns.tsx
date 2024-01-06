@@ -11,9 +11,11 @@ import { ActionIcon } from '@/components/ui/action-icon';
 import PencilIcon from '@/components/icons/pencil';
 import DeletePopover from '@/app/shared/delete-popover';
 
+
 type Columns = {
   sortConfig?: any;
   onDeleteItem: (id: string) => {};
+  openModalFunction: (id: string,data:any) => {};
   onHeaderCellClick: (value: string) => void;
   onChecked?: (event: React.ChangeEvent<HTMLInputElement>, id: string) => void;
 };
@@ -23,6 +25,7 @@ export const getColumns = ({
   onDeleteItem,
   onHeaderCellClick,
   onChecked,
+  openModalFunction
 }: Columns) => [
   {
     title: <></>,
@@ -133,11 +136,11 @@ export const getColumns = ({
           placement="top"
           color="invert"
         >
-          <Link href={routes.eCommerce.editCategory(row._id)}>
-            <ActionIcon size="sm" variant="outline">
+          {/* <Link href={routes.eCommerce.editCategory(row._id)}> */}
+            <ActionIcon size="sm" variant="outline" onClick={()=>openModalFunction(row._id,row)}>
               <PencilIcon className="h-4 w-4" />
             </ActionIcon>
-          </Link>
+          {/* </Link> */}
         </Tooltip>
         <DeletePopover
           title={`Delete the category`}

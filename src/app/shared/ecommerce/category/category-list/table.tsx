@@ -10,6 +10,12 @@ import { useTable } from '@/hooks/use-table';
 import { getColumns } from '@/app/shared/ecommerce/category/category-list/columns';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { useModal } from '@/app/shared/modal-views/use-modal';
+import CreateCategory from '@/app/shared/ecommerce/category/create-category';
+import { ActionIcon } from '@/components/ui/action-icon';
+import { PiPlusBold, PiXBold } from 'react-icons/pi';
+import { Title } from '@/components/ui/text';
+import { Button } from '@/components/ui/button';
 // dynamic import
 const TableFooter = dynamic(
   () => import('@/app/shared/ecommerce/category/category-list/table-footer'),
@@ -61,7 +67,7 @@ export default function CategoryTable() {
       setCurrentPageSelected(page)
    
     }
-  const onDeleteItem = useCallback((id: string) => {
+  const onDeleteItem = useCallback((id: any) => {
     let data = {"id":id}
     Axios.post(`${baseURL}/category/delete`,data).then(
       (response) => {
@@ -88,6 +94,32 @@ export default function CategoryTable() {
     }
   };
 
+  function CreateCategoryModalView(props:any) {
+    const { closeModal } = useModal();
+    return (
+      <div className="m-auto px-5 pb-8 pt-5 @lg:pt-6 @2xl:px-7">
+        <div className="mb-7 flex items-center justify-between">
+          <Title as="h4" className="font-semibold">
+            Update Category
+          </Title>
+          <ActionIcon size="sm" variant="text" onClick={() => closeModal()}>
+            <PiXBold className="h-auto w-5" />
+          </ActionIcon>
+        </div>
+        <CreateCategory id={props.id} category={props.category} isModalView={false} />
+      </div>
+    );
+  }
+  const { openModal } = useModal();
+const openModalFunction = (id: any,categoryData:any)=>{
+  const view = <CreateCategoryModalView id={id} category={categoryData} isModalView={false}/> 
+  const customSize = '500px';
+  openModal({
+    view,
+    // customSize,
+  })
+}
+
   const {
     isLoading,
     isFiltered,
@@ -104,7 +136,7 @@ export default function CategoryTable() {
 
   const columns = useMemo(
     () =>
-      getColumns({ sortConfig, onHeaderCellClick, onDeleteItem, onChecked }),
+      getColumns({ sortConfig, onHeaderCellClick, onDeleteItem, onChecked ,openModalFunction}),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       onHeaderCellClick,
@@ -112,6 +144,7 @@ export default function CategoryTable() {
       sortConfig.direction,
       onDeleteItem,
       onChecked,
+      openModalFunction
     ]
   );
  
