@@ -19,17 +19,18 @@ const TableFooter = dynamic(
 export default function CategoryTable() {
   const [pageSize, setPageSize] = useState(10);
   const [currentPageSelected, setCurrentPageSelected] = useState(1);
+  const [searchTerm1, setsearchTerm] = useState('');
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
       handleSort(value);
     },
   });
-  let pageData = {"page": currentPageSelected,"limit": pageSize}
-
+  let pageData = {"page": currentPageSelected,"limit": pageSize ,"search":searchTerm1}
   let baseURL = "http://64.227.177.118:8000"
 
   const [categoeyData ,setCategory] = useState<any>([])
+
     function getAllCategories(data:any) {
       Axios.post(`${baseURL}/category/all`,data).then(
           (response:any) => {
@@ -46,13 +47,14 @@ export default function CategoryTable() {
       );
     }
    
-      useEffect(()=>{
-        getAllCategories(pageData)
-      },[pageSize])
+    useEffect(()=>{
+      getAllCategories(pageData)
+    },[pageSize,searchTerm1,currentPageSelected])
 
-      useEffect(()=>{
-        getAllCategories(pageData)
-      },[currentPageSelected])
+    const handleSearchdata = (data:any) =>{
+      setsearchTerm(data)
+    }
+   
 
         // FUNCTION FOR PAGINATION
     const handlePaginateFunc = (page:any) =>{
@@ -60,13 +62,12 @@ export default function CategoryTable() {
    
     }
   const onDeleteItem = useCallback((id: string) => {
-    console.log("delete")
     let data = {"id":id}
     Axios.post(`${baseURL}/category/delete`,data).then(
       (response) => {
           var result = response.data;
           toast.success(response.data.message);
-          window.location.reload()
+          getAllCategories(pageData)
       },
       (error) => {
           console.log(error);
@@ -120,7 +121,7 @@ export default function CategoryTable() {
 
   return (
     <>
-                <ToastContainer />
+    <ToastContainer />
     <ControlledTable
       variant="modern"
       isLoading={isLoading}
@@ -132,16 +133,16 @@ export default function CategoryTable() {
         pageSize,
         setPageSize,
         total: categoeyData.total,
-        current: currentPage,
+        current: currentPageSelected,
         onChange: (page: number) => handlePaginateFunc(page),
       }}
       filterOptions={{
-        searchTerm,
+        searchTerm:searchTerm1,
         onSearchClear: () => {
-          handleSearch('');
+          handleSearchdata('');
         },
         onSearchChange: (event) => {
-          handleSearch(event.target.value);
+          handleSearchdata(event.target.value);
         },
         hasSearched: isFiltered,
         columns,

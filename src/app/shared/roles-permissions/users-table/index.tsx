@@ -72,7 +72,7 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
     handleDelete,
     handleReset,
   } = useTable(data, pageSize, filterState);
-  let pageData = {"page": currentPageSelected,"limit": pageSize}
+  let pageData = {"page": currentPageSelected,"limit": pageSize ,"search":searchTerm1}
   const [userDataTable ,setUserDataTable]= useState<any>([])
    //Function for get all categories
    function getAlluserDetails(data:any) {
@@ -87,22 +87,21 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
         }
     );
   }
+
   const handleSearchdata = (data:any) =>{
     setsearchTerm(data)
-    getAlluserDetails(pageData)
   }
+  
     useEffect(()=>{
       getAlluserDetails(pageData)
-    },[pageSize])
+    },[pageSize ,currentPageSelected,searchTerm1])
 
     // FUNCTION FOR PAGINATION
     const handlePaginateFunc = (page:any) =>{
       setCurrentPageSelected(page)
    
     }
-    useEffect(()=>{
-      getAlluserDetails(pageData)
-    },[currentPageSelected])
+   
 
   
   const columns = useMemo(
