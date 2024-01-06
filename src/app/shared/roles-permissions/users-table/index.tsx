@@ -30,7 +30,6 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   const [searchTerm1, setsearchTerm] = useState('');
   const [currentPageSelected, setCurrentPageSelected] = useState(1);
   let baseURL = "http://64.227.177.118:8000"
-
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
       handleSort(value);
@@ -78,7 +77,6 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   const [userDataTable ,setUserDataTable]= useState<any>([])
    //Function for get all categories
    function getAlluserDetails(data:any) {
-    console.log("data",data)
     Axios.post(`${baseURL}/users/all`,data).then(
         (response) => {
             var result = response.data;

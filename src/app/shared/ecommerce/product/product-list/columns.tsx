@@ -145,23 +145,23 @@ export const getColumns = ({
       <div className="inline-flex ps-3.5">
         <Checkbox
           className="cursor-pointer"
-          checked={checkedItems.includes(row.id)}
-          {...(onChecked && { onChange: () => onChecked(row.id) })}
+          checked={checkedItems.includes(row._id)}
+          {...(onChecked && { onChange: () => onChecked(row._id) })}
         />
       </div>
     ),
   },
   {
     title: <HeaderCell title="Product" />,
-    dataIndex: 'product',
-    key: 'product',
+    dataIndex: 'name',
+    key: 'name',
     width: 300,
     hidden: 'customer',
     render: (_: string, row: ProductType) => (
       <AvatarCard
         src={row.image}
         name={row.name}
-        description={row.category}
+        description={row.name}
         avatarProps={{
           name: row.name,
           size: 'lg',
@@ -170,13 +170,13 @@ export const getColumns = ({
       />
     ),
   },
-  {
-    title: <HeaderCell title="SKU" />,
-    dataIndex: 'sku',
-    key: 'sku',
-    width: 150,
-    render: (sku: string) => <Text className="text-sm">SKU-{sku}</Text>,
-  },
+  // {
+  //   title: <HeaderCell title="SKU" />,
+  //   dataIndex: 'sku',
+  //   key: 'sku',
+  //   width: 150,
+  //   render: (sku: string) => <Text className="text-sm">SKU-{sku}</Text>,
+  // },
   {
     title: (
       <HeaderCell
@@ -211,23 +211,32 @@ export const getColumns = ({
       <Text className="font-medium text-gray-700">${value}</Text>
     ),
   },
+  // {
+  //   title: <HeaderCell title="Rating" />,
+  //   dataIndex: 'rating',
+  //   key: 'rating',
+  //   width: 200,
+  //   render: (rating: number[]) => getRating(rating),
+  // },
   {
-    title: <HeaderCell title="Rating" />,
-    dataIndex: 'rating',
-    key: 'rating',
+    title: <HeaderCell title="Type" />,
+    dataIndex: 'type',
+    key: 'type',
     width: 200,
-    render: (rating: number[]) => getRating(rating),
+    render: (value: string) => (
+      <Text className="font-medium text-gray-700">{value}</Text>
+    ),
   },
-  {
-    title: <HeaderCell title="Status" />,
-    dataIndex: 'status',
-    key: 'status',
-    width: 120,
-    render: (value: string) => getStatusBadge(value),
-  },
+  // {
+  //   title: <HeaderCell title="Status" />,
+  //   dataIndex: 'status',
+  //   key: 'status',
+  //   width: 120,
+  //   render: (value: string) => getStatusBadge(value),
+  // },
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
-    title: <HeaderCell title="Actions" className="opacity-0" />,
+    title: <HeaderCell title="Actions" />,
     dataIndex: 'action',
     key: 'action',
     width: 120,
@@ -251,7 +260,7 @@ export const getColumns = ({
           placement="top"
           color="invert"
         >
-          <Link href={routes.eCommerce.productDetails(row.id)}>
+          <Link href={routes.eCommerce.productDetails(row._id)}>
             <ActionIcon size="sm" variant="outline" aria-label={'View Product'}>
               <EyeIcon className="h-4 w-4" />
             </ActionIcon>
@@ -259,8 +268,8 @@ export const getColumns = ({
         </Tooltip>
         <DeletePopover
           title={`Delete the product`}
-          description={`Are you sure you want to delete this #${row.id} product?`}
-          onDelete={() => onDeleteItem(row.id)}
+          description={`Are you sure you want to delete this  product?`}
+          onDelete={() => onDeleteItem(row._id)}
         />
       </div>
     ),

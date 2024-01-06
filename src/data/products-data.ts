@@ -8,6 +8,7 @@ export type ProductType = {
   price: string;
   status: string;
   rating: number[];
+  _id: string;
 };
 
 export const productsData = [

@@ -1,12 +1,17 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useTable } from '@/hooks/use-table';
 import { useColumn } from '@/hooks/use-column';
 import { Button } from '@/components/ui/button';
 import ControlledTable from '@/components/controlled-table';
 import { getColumns } from '@/app/shared/ecommerce/product/product-list/columns';
+import Axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import CreateUser from '@/app/shared/roles-permissions/create-user';
+import { useModal } from '@/app/shared/modal-views/use-modal';
 const FilterElement = dynamic(
   () => import('@/app/shared/ecommerce/product/product-list/filter-element'),
   { ssr: false }
@@ -23,6 +28,10 @@ const filterState = {
 
 export default function ProductsTable({ data = [] }: { data: any[] }) {
   const [pageSize, setPageSize] = useState(10);
+  const [productDataTable ,setProductDataTable]= useState<any>([])
+  const [searchTerm1, setsearchTerm] = useState('');
+  const [currentPageSelected, setCurrentPageSelected] = useState(1);
+  let baseURL = "http://64.227.177.118:8000"
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -30,8 +39,48 @@ export default function ProductsTable({ data = [] }: { data: any[] }) {
     },
   });
 
+      let pageData = {
+      "page": currentPageSelected,
+      "limit": pageSize ,
+      "search":searchTerm1 ,
+      "categoryId":"582ffab1-b9f1-4589-a664-ecdcecfc0228"
+    }  
+     //Function for get all product with specific category
+     function getAllproductDetails(data:any) {
+      Axios.post(`${baseURL}/product/getByCategory`,data).then(
+          (response) => {
+              var result = response.data;
+              setProductDataTable(result)
+          },
+          (error) => {
+              console.log(error);
+          }
+      );
+    }
+
+const handleSearchdata = (data:any) =>{
+  setsearchTerm(data)
+}
+
+    // FUNCTION FOR PAGINATION
+    const handlePaginateFunc = (page:any) =>{
+      setCurrentPageSelected(page)
+    }
+    useEffect(()=>{
+      getAllproductDetails(pageData)
+    },[pageSize,currentPageSelected ,searchTerm1])
+
   const onDeleteItem = useCallback((id: string) => {
-    handleDelete(id);
+    let data = {"id":id}
+    Axios.post(`${baseURL}/product/delete`,data).then(
+      (response) => {
+          var result = response.data;
+          toast.success(response.data.message);
+          getAllproductDetails(pageData)
+      },
+      (error) => {
+          console.log(error);
+      })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -84,27 +133,28 @@ export default function ProductsTable({ data = [] }: { data: any[] }) {
 
   return (
     <>
+        <ToastContainer />
       <ControlledTable
         variant="modern"
         isLoading={isLoading}
         showLoadingText={true}
-        data={tableData}
+        data={productDataTable.data}
         // @ts-ignore
         columns={visibleColumns}
         paginatorOptions={{
           pageSize,
           setPageSize,
-          total: totalItems,
-          current: currentPage,
-          onChange: (page: number) => handlePaginate(page),
+          total: productDataTable.total,
+          current: currentPageSelected,
+          onChange: (page: number) => handlePaginateFunc(page),
         }}
         filterOptions={{
-          searchTerm,
+          searchTerm:searchTerm1,
           onSearchClear: () => {
-            handleSearch('');
+            handleSearchdata('');
           },
           onSearchChange: (event) => {
-            handleSearch(event.target.value);
+            handleSearchdata(event.target.value);
           },
           hasSearched: isFiltered,
           hideIndex: 1,
