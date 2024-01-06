@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-// import { signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { SubmitHandler } from 'react-hook-form';
 import { PiArrowRightBold } from 'react-icons/pi';
 import { Password } from '@/components/ui/password';
@@ -50,6 +50,9 @@ const onSubmit = async (data:any) => {
     toast.error(error.response.data.message);
 
   }
+ signIn('credentials', {
+    ...data,
+  });
 };
   // const onSubmit: SubmitHandler<LoginSchema> = (data) => {
   //   debugger;

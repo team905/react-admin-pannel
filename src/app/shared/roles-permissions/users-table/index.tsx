@@ -26,9 +26,9 @@ const filterState = {
 export default function UsersTable({ data = [] }: { data: any[] }) {
   const [pageSize, setPageSize] = useState(10);
   const [searchTerm1, setsearchTerm] = useState('');
+  console.log("pageSize",pageSize)
 
   const [currentPageSelected, setCurrentPageSelected] = useState(1);
-
   let baseURL = "http://64.227.177.118:8000"
 
   const onHeaderCellClick = (value: string) => ({
@@ -77,6 +77,7 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   const [userDataTable ,setUserDataTable]= useState<any>([])
    //Function for get all categories
    function getAlluserDetails(data:any) {
+    console.log("data",data)
     Axios.post(`${baseURL}/users/all`,data).then(
         (response) => {
             var result = response.data;
@@ -96,7 +97,7 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   }
     useEffect(()=>{
       getAlluserDetails({})
-    },[])
+    },[pageSize])
 
     // FUNCTION FOR PAGINATION
     const handlePaginateFunc = (page:any) =>{

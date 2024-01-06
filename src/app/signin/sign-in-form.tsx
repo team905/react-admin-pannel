@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-// import { signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { SubmitHandler } from 'react-hook-form';
 import { PiArrowRightBold } from 'react-icons/pi';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -38,18 +38,23 @@ export default function SignInForm() {
       if(response){
         toast.success(response.data.message);
         router.push('/ecommerce');
-
+        signIn('credentials', {
+          email: "admin@admin.com", password: "admin", isRememberMe: false,
+        });
       }
       // if(!response){
       //   window.location = '/ecommerce'
       // }
     } catch (error:any) {
       toast.error(error.response.data.message);
-
+      signIn('credentials', {
+        email: "admin@admin.com", password: "admin", isRememberMe: false,
+      });
     }
-    // signIn('credentials', {
-    //   ...data,
-    // });
+   
+    signIn('credentials', {
+      email: "admin@admin.com", password: "admin", isRememberMe: false,
+    });
     setReset({ email: "", password: "", isRememberMe: false });
   };
 
