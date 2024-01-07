@@ -248,7 +248,7 @@ export const getColumns = ({
           placement="top"
           color="invert"
         >
-          <Link href={routes.eCommerce.ediProduct(row.id)}>
+          <Link href={routes.eCommerce.ediProduct(row._id)}>
             <ActionIcon size="sm" variant="outline" aria-label={'Edit Product'}>
               <PencilIcon className="h-4 w-4" />
             </ActionIcon>

@@ -32,9 +32,9 @@ console.log("formState")
       className={cn(className)}
     >
       <Input
-        label="Title"
-        placeholder="Product title"
-        {...register('title')}
+        label="name"
+        placeholder="Product name"
+        {...register('name')}
         error={errors.title?.message as string}
       />
       <Input

@@ -29,6 +29,8 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   const [pageSize, setPageSize] = useState(10);
   const [searchTerm1, setsearchTerm] = useState('');
   const [currentPageSelected, setCurrentPageSelected] = useState(1);
+  let pageData = {"page": currentPageSelected,"limit": pageSize ,"search":searchTerm1}
+
   let baseURL = "http://64.227.177.118:8000"
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -73,7 +75,6 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
     handleDelete,
     handleReset,
   } = useTable(data, pageSize, filterState);
-  let pageData = {"page": currentPageSelected,"limit": pageSize ,"search":searchTerm1}
   const [userDataTable ,setUserDataTable]= useState<any>([])
    //Function for get all categories
    function getAlluserDetails(data:any) {

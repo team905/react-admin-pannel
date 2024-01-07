@@ -3,7 +3,7 @@ import { messages } from '@/config/messages';
 import { fileSchema } from '@/utils/validators/common-rules';
 
 export const productFormSchema = z.object({
-  title: z.string().min(1, { message: messages.productNameIsRequired }),
+  name: z.string().min(1, { message: messages.productNameIsRequired }),
   sku: z.string().optional(),
   type: z
     .string({ required_error: messages.productTypeIsRequired })

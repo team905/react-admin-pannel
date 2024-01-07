@@ -22,7 +22,7 @@ export const productVariants = [
 
 export function defaultValues(product?: CreateProductInput) {
   return {
-    title: product?.title ?? '',
+    name: product?.name ?? '',
     sku: product?.sku ?? '',
     type: product?.type ?? '',
     categories: product?.categories ?? '',
@@ -65,7 +65,7 @@ export function defaultValues(product?: CreateProductInput) {
 }
 
 export const productData = {
-  title: 'Apple',
+  name: 'Apple',
   description: 'Fresh Express Iceberg Garden Salad Blend',
   sku: 'SKU-28935',
   type: 'Digital Product',
@@ -168,12 +168,12 @@ export const categoryOption = [
 // Type option
 export const typeOption = [
   {
-    value: 'digital product',
-    name: 'Digital Product',
+    value: 'Electronic',
+    name: 'Electronic',
   },
   {
-    value: 'physical product',
-    name: 'Physical Product',
+    value: 'Other',
+    name: 'Other',
   },
 ];
 
