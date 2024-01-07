@@ -14,8 +14,8 @@ import DeletePopover from '@/app/shared/delete-popover';
 
 type Columns = {
   sortConfig?: any;
-  onDeleteItem: (id: string) => {};
-  openModalFunction: (id: string,data:any) => {};
+  onDeleteItem: (value: string) => void;
+  openModalFunction: (id: string,data:any) => void;
   onHeaderCellClick: (value: string) => void;
   onChecked?: (event: React.ChangeEvent<HTMLInputElement>, id: string) => void;
 };

@@ -36,8 +36,7 @@ export default function CreateUser(props:any) {
   const [categoryData, setCategory] = useState([]);
   const [selectedList, setSelectedList] = useState([]);
   // const [selectedOptions, setSelectedOptions] = useState(props.user?.categoryAccess) 
-
-  const router = useRouter()
+  const { push } = useRouter();
   const config = {
     headers: { Authorization: `Bearer ` }
 };
@@ -64,7 +63,8 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
          } else {
           toast.success(response.data.message);
           // router.replace(router.as);
-          window.location.reload()
+          debugger;
+          props.dataChange(true)
           closeModal();
          }
         //  {errors}

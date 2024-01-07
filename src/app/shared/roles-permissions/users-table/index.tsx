@@ -76,6 +76,7 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
     handleReset,
   } = useTable(data, pageSize, filterState);
   const [userDataTable ,setUserDataTable]= useState<any>([])
+
    //Function for get all categories
    function getAlluserDetails(data:any) {
     Axios.post(`${baseURL}/users/all`,data).then(
@@ -92,6 +93,10 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   const handleSearchdata = (data:any) =>{
     setsearchTerm(data)
   }
+
+  const dataChange = (e:any) => {
+    getAlluserDetails(pageData)
+   };
   
     useEffect(()=>{
       getAlluserDetails(pageData)
@@ -105,7 +110,7 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
    
     const { openModal } = useModal();
     const openModalFunction = (id: any,userData:any)=>{
-      const view = <CreateUser id={id} user={userData} /> 
+      const view = <CreateUser id={id} user={userData} dataChange={dataChange} /> 
       const customSize = '500px';
       openModal({
         view,
@@ -150,6 +155,7 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
         handleReset={handleReset}
         onSearch={handleSearchdata}
         searchTerm={searchTerm1}
+        dataChange={dataChange}
       />
       <ControlledTable
         variant="modern"

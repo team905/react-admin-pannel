@@ -52,6 +52,10 @@ export default function CategoryTable() {
           }
       );
     }
+
+    const dataChange = (e:any) => {
+      getAllCategories(pageData)
+     };
    
     useEffect(()=>{
       getAllCategories(pageData)
@@ -106,13 +110,13 @@ export default function CategoryTable() {
             <PiXBold className="h-auto w-5" />
           </ActionIcon>
         </div>
-        <CreateCategory id={props.id} category={props.category} isModalView={false} />
+        <CreateCategory id={props.id} category={props.category} isModalView={false} dataChange={props.dataChange} />
       </div>
     );
   }
   const { openModal } = useModal();
 const openModalFunction = (id: any,categoryData:any)=>{
-  const view = <CreateCategoryModalView id={id} category={categoryData} isModalView={false}/> 
+  const view = <CreateCategoryModalView id={id} category={categoryData} isModalView={false} dataChange={dataChange}/> 
   const customSize = '500px';
   openModal({
     view,

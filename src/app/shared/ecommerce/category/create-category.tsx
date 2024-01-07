@@ -12,6 +12,7 @@ import { Form } from '@/components/ui/form';
 import cn from '@/utils/class-names';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { useModal } from '@/app/shared/modal-views/use-modal';
 import {
   CategoryFormInput,
   categoryFormSchema,
@@ -109,16 +110,19 @@ export default function CreateCategory({
   id,
   category,
   isModalView = true,
+  dataChange,
 }: {
   id?: string;
   isModalView?: boolean;
   category?: CategoryFormInput;
+  dataChange:any
 }) {
   const [reset, setReset] = useState({});
   const [isLoading, setLoading] = useState(false);
   const config = {
     headers: { Authorization: `Bearer ` }
 };
+const { closeModal } = useModal();
 
 let baseURL = "http://64.227.177.118:8000"
   const onSubmit: SubmitHandler<CategoryFormInput> = (data:any) => {
@@ -131,7 +135,8 @@ let baseURL = "http://64.227.177.118:8000"
   ).then((res)=>{
     if(res){
       toast.success(res.data.message);
-      window.location.reload()
+      closeModal()
+      dataChange(true)
       setLoading(false);
 
     }

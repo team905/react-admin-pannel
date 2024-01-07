@@ -60,6 +60,7 @@ type FilterElementProps = {
   handleReset: () => void;
   onSearch: (searchTerm: string) => void;
   searchTerm: string;
+  dataChange:(e:any) => void
 };
 
 const roles = rolesList.map((role) => ({
@@ -74,6 +75,7 @@ export default function FilterElement({
   updateFilter,
   onSearch,
   searchTerm,
+  dataChange
 }: FilterElementProps) {
   const isMediumScreen = useMedia('(max-width: 1860px)', false);
   return (
@@ -136,7 +138,7 @@ export default function FilterElement({
         <div className="-order-5 flex basis-auto justify-end @xl:-order-4 @4xl:-order-1">
           <ModalButton
             label="Add New User"
-            view={<CreateUser />}
+            view={<CreateUser dataChange={dataChange} />}
             customSize="600px"
             className="mt-0"
           />

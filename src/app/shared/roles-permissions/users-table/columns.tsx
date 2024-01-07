@@ -61,7 +61,7 @@ type Columns = {
   onHeaderCellClick: (value: string) => void;
   onChecked?: (id: string) => void;
   pageSize:any;
-  openModalFunction: (id: string,data:any) => {};
+  openModalFunction: (id: string,data:any) => void;
 };
 export const getColumns = ({
   data,

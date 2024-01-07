@@ -79,11 +79,11 @@ export default function CreateEditProduct({
         }
     );
   }
-console.log("productData",productData)
   const methods = useForm<CreateProductInput>({
     // resolver: zodResolver(productFormSchema),
-    defaultValues: defaultValues(productData),
+    defaultValues:productData,
   });
+  console.log("productData",productData ,methods)
 
   const onSubmit: SubmitHandler<CreateProductInput> = async (data:any)  => {
     // alert("kk")
@@ -91,7 +91,7 @@ console.log("productData",productData)
 
     let customUrl = slug? `${baseURL}/product/update` :  `${baseURL}/product/add`;
 
-    let payload = {
+    let payload:any = {
         "userId":"8af8ba06-4d25-422a-b08d-9e581f4bf578",// temporary data to to removed after adding tokens functionality
         "price":data.price,
         "name":data.name,
