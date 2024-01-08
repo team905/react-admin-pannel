@@ -31,6 +31,22 @@ export default function ProductsTable({ data = [] }: { data: any[] }) {
   const [productDataTable ,setProductDataTable]= useState<any>([])
   const [searchTerm1, setsearchTerm] = useState('');
   const [currentPageSelected, setCurrentPageSelected] = useState(1);
+  const [selectedCatId, setselectedCatId] = useState('');
+
+
+  if(typeof window !== 'undefined') {
+    console.log('You are on the browser');
+    useEffect(()=> {
+      const id:any  = sessionStorage.getItem('catId');
+      setselectedCatId(id)
+    },[])
+    
+  } else {
+    useEffect(()=> {
+      const id:any  = sessionStorage.getItem('catId');
+      setselectedCatId(id)
+    },[])
+  }
   let baseURL = "http://64.227.177.118:8000"
 
   const onHeaderCellClick = (value: string) => ({
@@ -38,13 +54,17 @@ export default function ProductsTable({ data = [] }: { data: any[] }) {
       handleSort(value);
     },
   });
-
-      let pageData = {
-      "page": currentPageSelected,
-      "limit": pageSize ,
-      "search":searchTerm1 ,
-      "categoryId":"582ffab1-b9f1-4589-a664-ecdcecfc0228"
-    }  
+ 
+  console.log("selectedCatIdwwww",selectedCatId)
+  let pageData = {
+    "page": currentPageSelected,
+    "limit": pageSize ,
+    "search":searchTerm1 ,
+    "categoryId":selectedCatId
+  }  
+  useEffect(()=>{
+    getAllproductDetails(pageData)
+  },[selectedCatId])
      //Function for get all product with specific category
      function getAllproductDetails(data:any) {
       Axios.post(`${baseURL}/product/getByCategory`,data).then(
@@ -68,7 +88,7 @@ const handleSearchdata = (data:any) =>{
     }
     useEffect(()=>{
       getAllproductDetails(pageData)
-    },[pageSize,currentPageSelected ,searchTerm1])
+    },[pageSize,currentPageSelected ,searchTerm1,selectedCatId])
 
   const onDeleteItem = useCallback((id: string) => {
     let data = {"id":id}

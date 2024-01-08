@@ -15,6 +15,7 @@ import DeletePopover from '@/app/shared/delete-popover';
 type Columns = {
   sortConfig?: any;
   onDeleteItem: (value: string) => void;
+  handleCatIdStorage: (id: string) => void;
   openModalFunction: (id: string,data:any) => void;
   onHeaderCellClick: (value: string) => void;
   onChecked?: (event: React.ChangeEvent<HTMLInputElement>, id: string) => void;
@@ -25,7 +26,8 @@ export const getColumns = ({
   onDeleteItem,
   onHeaderCellClick,
   onChecked,
-  openModalFunction
+  openModalFunction,
+  handleCatIdStorage
 }: Columns) => [
   {
     title: <></>,
@@ -72,14 +74,18 @@ export const getColumns = ({
       />
     ),
     dataIndex: 'name',
-    key: 'name',
+    key: '_id',
     width: 200,
     onHeaderCell: () => onHeaderCellClick('name'),
-    render: (name: string) => (
-    <Link  href="/"> <Title as="h6" className="!text-sm font-medium">
-        {name}
-      </Title> </Link>
+    render: (image: any, row: any) => (
+      <div onClick={()=>handleCatIdStorage(row._id)} >
+        <Title      
+           className="!text-sm font-medium">
+            {row.name}
+          </Title>
+      </div>
     ),
+    
   },
   {
     title: <HeaderCell title="Description" />,

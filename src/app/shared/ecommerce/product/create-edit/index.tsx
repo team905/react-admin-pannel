@@ -56,9 +56,24 @@ export default function CreateEditProduct({
   const { layout } = useLayout();
   const [isLoading, setLoading] = useState(false);
   const [productData, setProductData] = useState<any>({});
+  const [selectedCatId, setselectedCatId] = useState('');
+
   let baseURL = "http://64.227.177.118:8000"
   const { push } = useRouter();
 
+  if(typeof window !== 'undefined') {
+    console.log('You are on the browser');
+    useEffect(()=> {
+      const id:any  = sessionStorage.getItem('catId');
+      setselectedCatId(id)
+    },[])
+    
+  } else {
+    useEffect(()=> {
+      const id:any  = sessionStorage.getItem('catId');
+      setselectedCatId(id)
+    },[])
+  }
   useLayoutEffect(()=>{
     if(slug){
       getProdcutDetaiId(slug)
@@ -81,7 +96,7 @@ export default function CreateEditProduct({
   }
   const methods = useForm<CreateProductInput>({
     // resolver: zodResolver(productFormSchema),
-    defaultValues:productData,
+    defaultValues: defaultValues(productData),
   });
   console.log("productData",productData ,methods)
 
@@ -96,7 +111,7 @@ export default function CreateEditProduct({
         "price":data.price,
         "name":data.name,
         "type":data.type,
-        "categoryId": "582ffab1-b9f1-4589-a664-ecdcecfc0228",
+        "categoryId": selectedCatId,
         }
         if(slug){
           payload["id"] = slug

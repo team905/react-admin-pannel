@@ -16,6 +16,8 @@ import { ActionIcon } from '@/components/ui/action-icon';
 import { PiPlusBold, PiXBold } from 'react-icons/pi';
 import { Title } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+
 // dynamic import
 const TableFooter = dynamic(
   () => import('@/app/shared/ecommerce/category/category-list/table-footer'),
@@ -34,6 +36,7 @@ export default function CategoryTable() {
   });
   let pageData = {"page": currentPageSelected,"limit": pageSize ,"search":searchTerm1}
   let baseURL = "http://64.227.177.118:8000"
+  const { push } = useRouter();
 
   const [categoeyData ,setCategory] = useState<any>([])
 
@@ -71,6 +74,7 @@ export default function CategoryTable() {
       setCurrentPageSelected(page)
    
     }
+
   const onDeleteItem = useCallback((id: any) => {
     let data = {"id":id}
     Axios.post(`${baseURL}/category/delete`,data).then(
@@ -85,6 +89,12 @@ export default function CategoryTable() {
   );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleCatIdStorage = (catId:string) => {
+    // Set the value in local storage
+    sessionStorage.setItem('catId', catId);
+    push("/ecommerce/products")
+  };
 
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
   const onChecked = (
@@ -140,7 +150,7 @@ const openModalFunction = (id: any,categoryData:any)=>{
 
   const columns = useMemo(
     () =>
-      getColumns({ sortConfig, onHeaderCellClick, onDeleteItem, onChecked ,openModalFunction}),
+      getColumns({ sortConfig, onHeaderCellClick,handleCatIdStorage, onDeleteItem, onChecked ,openModalFunction}),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       onHeaderCellClick,
@@ -148,7 +158,8 @@ const openModalFunction = (id: any,categoryData:any)=>{
       sortConfig.direction,
       onDeleteItem,
       onChecked,
-      openModalFunction
+      openModalFunction,
+      handleCatIdStorage
     ]
   );
  
