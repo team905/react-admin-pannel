@@ -35,13 +35,13 @@ export const getColumns = ({
     key: 'checked',
     width: 30,
     render: (_: any, row: any,index:number) => (
-      <div className="inline-flex ps-2">
+      <div className="inline-flex ps-2" onClick={()=>handleCatIdStorage(row._id)} >
         <Checkbox
           value={row.id}
           className="cursor-pointer"
           {...(onChecked && { onChange: (e) => onChecked(e, e.target.value) })}
         />
-       <span className='ml-3'>  {index + 1} </span>
+       <span className='ml-3'>  {index + 1} </span> 
       </div>
     ),
   },
@@ -51,7 +51,7 @@ export const getColumns = ({
     key: 'image',
     width: 100,
     render: (image: any, row: any) => (
-      <figure className="relative aspect-square w-12 overflow-hidden rounded-lg bg-gray-100">
+      <figure  style={{color:'#0000EE',cursor:'pointer'}} onClick={()=>handleCatIdStorage(row._id)} className="relative aspect-square w-12 overflow-hidden rounded-lg bg-gray-100">
         <Image
           alt={row.name}
           src={image}
@@ -78,11 +78,36 @@ export const getColumns = ({
     width: 200,
     onHeaderCell: () => onHeaderCellClick('name'),
     render: (image: any, row: any) => (
-      <div onClick={()=>handleCatIdStorage(row._id)} >
-        <Title      
-           className="!text-sm font-medium">
+      <div style={{color:'#0000EE',cursor:'pointer'}} onClick={()=>handleCatIdStorage(row._id)} >
+        <b      
+           >
             {row.name}
-          </Title>
+          </b>
+      </div>
+    ),
+    
+  },
+  {
+    title: (
+      <HeaderCell
+        title="Category type"
+        sortable
+        ascending={
+          sortConfig?.direction === 'asc' && sortConfig?.key === 'name'
+        }
+        
+      />
+    ),
+    dataIndex: 'type',
+    key: 'type',
+    width: 200,
+    onHeaderCell: () => onHeaderCellClick('type'),
+    render: (image: any, row: any) => (
+      <div style={{color:'#0000EE',cursor:'pointer'}} onClick={()=>handleCatIdStorage(row._id)} >
+        <span   
+           >
+            {row.type}
+          </span>
       </div>
     ),
     
@@ -92,8 +117,13 @@ export const getColumns = ({
     dataIndex: 'description',
     key: 'description',
     width: 250,
-    render: (description: string) => (
-      <Text className="truncate !text-sm "><div dangerouslySetInnerHTML={{__html: description}} ></div></Text>
+    render: (image: any, row: any) => (
+      <div style={{color:'#0000EE',cursor:'pointer'}} onClick={()=>handleCatIdStorage(row._id)} >
+        <span      
+           >
+            <div dangerouslySetInnerHTML={{__html: row.description}} ></div>
+          </span>
+      </div>
     ),
   },
   {

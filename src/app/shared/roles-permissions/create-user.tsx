@@ -35,7 +35,7 @@ export default function CreateUser(props:any) {
   const [isLoading, setLoading] = useState(false);
   const [categoryData, setCategory] = useState([]);
   const [selectedList, setSelectedList] = useState([]);
-  // const [selectedOptions, setSelectedOptions] = useState(props.user?.categoryAccess) 
+  const [selectedOptions, setSelectedOptions] = useState(props.user?.categoryAccess) 
   const { push } = useRouter();
   const config = {
     headers: { Authorization: `Bearer ` }
@@ -63,7 +63,6 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
          } else {
           toast.success(response.data.message);
           // router.replace(router.as);
-          debugger;
           props.dataChange(true)
           closeModal();
          }
@@ -76,7 +75,7 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
       // }
     } catch (error:any) {
       console.log(error);
-      toast.error(error.message);
+      toast.error("User already exists");
     }
     // set timeout ony required to display loading state of the create category button
     // const formattedData = {
@@ -101,8 +100,9 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
   };
 
   //Function for get all categories
+  let catPage = {"page": 1,"limit": 10000}
   function getAllCategories() {
-    Axios.post(`${baseURL}/category/all`).then(
+    Axios.post(`${baseURL}/category/all`,catPage).then(
         (response) => {
             var result = response.data;
             console.log(result,"result");
@@ -172,6 +172,7 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
               className="col-span-full"
               {...register('password')}
               error={errors.password?.message}
+              disabled={props.id ? true : false}
             />
 
 
@@ -214,6 +215,7 @@ const onSubmit: SubmitHandler<CreateUserInput> = async (data:any) => {
                 onSelect={onSelect}
                 options={categoryData}
                 // value={value}
+                selectedValues={selectedOptions}
                 className="col-span-full"
                 // selectedValueDecorator={function noRefCheck(){}}
               />

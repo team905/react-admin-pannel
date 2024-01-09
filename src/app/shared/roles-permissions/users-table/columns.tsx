@@ -173,7 +173,7 @@ export const getColumns = ({
   //   render: (status: User['status']) => getStatusBadge(status),
   // },
   {
-    title: <></>,
+    title: <>Actions</>,
     dataIndex: 'action',
     key: 'action',
     width: 140,

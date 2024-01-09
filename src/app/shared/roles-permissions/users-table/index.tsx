@@ -39,13 +39,15 @@ export default function UsersTable({ data = [] }: { data: any[] }) {
   });
 
   const onDeleteItem = useCallback((id: string) => {
+
     let data = {"id":id}
     Axios.post(`${baseURL}/users/deleteUser`,data).then(
       (response) => {
           var result = response.data;
           getAlluserDetails({})
           toast.success(response.data.message);
-         
+                     setPageSize(10)
+
 
       },
       (error) => {

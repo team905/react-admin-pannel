@@ -1,3 +1,5 @@
+
+'use client';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import FormGroup from '@/app/shared/form-group';
@@ -19,12 +21,13 @@ const QuillEditor = dynamic(() => import('@/components/ui/quill-editor'), {
 });
 
 export default function ProductSummary({ className }: { className?: string }) {
+  let data = useFormContext()
+  console.log("data",data)
   const {
     register,
     control,
     formState: { errors },
   } = useFormContext();
-console.log("formState")
   return (
     <FormGroup
       title="Summary"

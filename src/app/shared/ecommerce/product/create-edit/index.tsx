@@ -43,7 +43,7 @@ const MAP_STEP_TO_COMPONENT = {
 };
 
 interface IndexProps {
-  slug?: string;
+  slug?: any;
   className?: string;
   product?: CreateProductInput;
 }
@@ -74,11 +74,9 @@ export default function CreateEditProduct({
       setselectedCatId(id)
     },[])
   }
-  useLayoutEffect(()=>{
-    if(slug){
+  useEffect(()=>{
       getProdcutDetaiId(slug)
-    }
-  },[])
+  },[slug])
 
   function getProdcutDetaiId(id:string) {
     let payload = {
@@ -94,11 +92,11 @@ export default function CreateEditProduct({
         }
     );
   }
+
   const methods = useForm<CreateProductInput>({
     // resolver: zodResolver(productFormSchema),
-    defaultValues: defaultValues(productData),
+    defaultValues: defaultValues(product),
   });
-  console.log("productData",productData ,methods)
 
   const onSubmit: SubmitHandler<CreateProductInput> = async (data:any)  => {
     // alert("kk")
@@ -125,7 +123,6 @@ export default function CreateEditProduct({
               toast.error(response.data.message);
              } else {
               toast.success(response.data.message);
-              debugger
               // router.replace(router.as);
               push("/ecommerce/products")
               
@@ -155,8 +152,6 @@ export default function CreateEditProduct({
     //   methods.reset();
     // }, 600);
   };
-
-
 
   return (
     <div className="@container">

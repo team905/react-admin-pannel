@@ -82,6 +82,7 @@ export default function CategoryTable() {
           var result = response.data;
           toast.success(response.data.message);
           getAllCategories(pageData)
+          setPageSize(10)
       },
       (error) => {
           console.log(error);
