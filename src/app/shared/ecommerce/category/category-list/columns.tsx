@@ -41,7 +41,7 @@ export const getColumns = ({
           className="cursor-pointer"
           {...(onChecked && { onChange: (e) => onChecked(e, e.target.value) })}
         />
-       <span className='ml-3'>  {index + 1} </span> 
+       <span className='ml-3'>  {row.sr_no} </span> 
       </div>
     ),
   },

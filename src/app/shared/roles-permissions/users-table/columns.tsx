@@ -94,7 +94,7 @@ export const getColumns = ({
           className="cursor-pointer"
           checked={checkedItems.includes(row._id)}
           {...(onChecked && { onChange: () => onChecked(row._id) })}
-          label={`${index + 1}`}
+          label={`${row.sr_no}`}
         />
       </div>
     ),
