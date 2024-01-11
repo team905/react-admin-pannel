@@ -75,6 +75,7 @@ export default function CreateEditProduct({
     },[])
   }
   useEffect(()=>{
+    console.log("slug",slug)
       getProdcutDetaiId(slug)
   },[slug])
 
@@ -93,9 +94,10 @@ export default function CreateEditProduct({
     );
   }
 
+
   const methods = useForm<CreateProductInput>({
     // resolver: zodResolver(productFormSchema),
-    defaultValues: defaultValues(product),
+    values: productData,
   });
 
   const onSubmit: SubmitHandler<CreateProductInput> = async (data:any)  => {
@@ -123,6 +125,7 @@ export default function CreateEditProduct({
               toast.error(response.data.message);
              } else {
               toast.success(response.data.message);
+              debugger
               // router.replace(router.as);
               push("/ecommerce/products")
               

@@ -140,8 +140,7 @@ let baseURL = "http://64.227.177.118:8000"
       setLoading(false);
 
     }
-  }).catch(console.log);
-  toast.error("Category already exist.");
+  }).catch(()=>  toast.error("Category already exist."));
 
     // setLoading(true);
     // setTimeout(() => {
