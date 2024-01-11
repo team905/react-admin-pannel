@@ -75,7 +75,6 @@ export default function CreateEditProduct({
     },[])
   }
   useEffect(()=>{
-    console.log("slug",slug)
       getProdcutDetaiId(slug)
   },[slug])
 
@@ -103,7 +102,7 @@ export default function CreateEditProduct({
   const onSubmit: SubmitHandler<CreateProductInput> = async (data:any)  => {
     // alert("kk")
     setLoading(true);
-
+console.log("data",data)
     let customUrl = slug? `${baseURL}/product/update` :  `${baseURL}/product/add`;
 
     let payload:any = {
@@ -111,7 +110,8 @@ export default function CreateEditProduct({
         "price":data.price,
         "name":data.name,
         "type":data.type,
-        "categoryId": selectedCatId,
+        "categoryId": data.categoryId,
+        "categories":data.categories
         }
         if(slug){
           payload["id"] = slug
